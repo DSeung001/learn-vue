@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import AboutView from "@/views/AboutView.vue";
 import PostCreateView from "@/views/posts/PostCreateView.vue";
@@ -82,8 +82,13 @@ const routes = [
   }
 ];
 
+// Hash와 History의 차이는 서버에 배포 방법의 차이
+// # 뒤에 문구는 서버 요청에 안 붙음
+// # 해시모드로 최적화시 => SEO에 악영향
+// 그러므로 대부분 History 모드 사용
 const router = createRouter({
   history: createWebHistory("/"),
+  // history : createWebHashHistory('/base'),
   routes
 });
 
