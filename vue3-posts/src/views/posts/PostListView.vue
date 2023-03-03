@@ -1,39 +1,29 @@
 <template>
   <div>
     <h2>게시글 목록</h2>
-    <form @submit.prevent>
-      <h2 class="my-4"></h2>
-      <div class="row g-3">
-        <div class="col">
-          <input v-model="params.title_like" type="text" class="form-control">
-        </div>
-        <div class="col-3">
-          <select v-model="params._limit" class="form-select">
-            <option value="3">3개씩 보기</option>
-            <option value="6">6개씩 보기</option>
-            <option value="9">9개씩 보기</option>
-          </select>
-        </div>
-      </div>
-    </form>
+
+    <PostFilter
+        v-model:title="params.title_like"
+        v-model:limit="params._limit"
+    ></PostFilter>
 
     <hr class="my-4">
-    <div class="row g-4">
-      <div v-for="post in posts" :key="post.id" class="col-4">
-        <PostItem
-          :title="post.title"
-          :content="post.content"
-          :created-at="post.createdAt"
-          @click="goPage(post.id)"
-        ></PostItem>
-      </div>
-    </div>
 
+    <AppGridList :items="posts">
+      <template v-slot="{item}">
+        <PostItem
+            :title="item.title"
+            :content="item.content"
+            :created-at="item.createdAt"
+            @click="goPage(item.id)"
+        ></PostItem>
+      </template>
+    </AppGridList>
 
     <AppPagination
-      :current-page="params._page"
-      :page-count="pageCount"
-      @page="page => params._page = page" />
+        :current-page="params._page"
+        :page-count="pageCount"
+        @page="page => params._page = page"/>
 
 
     <template v-if="posts && posts.length > 0">
@@ -50,11 +40,13 @@
 import PostItem from "@/components/posts/PostItem.vue";
 import PostDetailView from "@/views/posts/PostDetailView.vue";
 import AppCard from "@/components/AppCard.vue";
-import { getPosts } from "@/api/posts";
-import { ref, watchEffect } from "vue";
-import { useRouter } from "vue-router";
-import { computed } from "@vue/reactivity";
+import {getPosts} from "@/api/posts";
+import {ref, watchEffect} from "vue";
+import {useRouter} from "vue-router";
+import {computed} from "@vue/reactivity";
 import AppPagination from "@/components/AppPagination.vue";
+import AppGridList from "@/components/AppGridList.vue";
+import PostFilter from "@/components/posts/PostFilter.vue";
 
 const router = useRouter();
 const posts = ref([]);
@@ -76,7 +68,7 @@ const fetchPosts = async () => {
   // getPosts의 값은 Promise
 
   try {
-    const { data, headers } = await getPosts(params.value);
+    const {data, headers} = await getPosts(params.value);
     // ({ data : posts.value } = await getPosts());
     posts.value = data;
     totalCount.value = headers["x-total-count"];

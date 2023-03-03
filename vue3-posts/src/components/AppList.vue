@@ -1,13 +1,5 @@
-<template>
+<template></template>
 
-</template>
+<script></script>
 
-<script>
-export default {
-  name: "AppList"
-};
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>
