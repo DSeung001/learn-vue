@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h2>{{form.title}}</h2>
+    <h2>{{ post.title }}</h2>
     <p>
-      {{form.content}}
+      {{ post.content }}
     </p>
     <p class="text-muted">
-      {{form.createdAt}}
+      {{ post.createdAt }}
     </p>
     <hr class="my-4" />
     <div class="row g-2">
@@ -33,7 +33,7 @@
         </button>
       </div>
       <div class="col-auto">
-        <button class="btn btn-outline-danger">
+        <button class="btn btn-outline-danger" @click="remove">
           삭제
         </button>
       </div>
@@ -43,7 +43,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import { getPostById } from "@/api/posts";
+import { getPostById, deletePost } from "@/api/posts";
 import { ref } from "vue";
 
 const props = defineProps({
@@ -65,15 +65,39 @@ const router = useRouter();
 * - 객체할당 할 시 반응형 클래스가 아닌 Object로 됨
 * - .value로 안하고 바로 접근ㄱ 가능
 * */
-const form = ref({})
+const post = ref({
+  title: null,
+  content: null,
+  createdAt: null
+});
 
-const fetchPost = () =>{
-  const data =  getPostById(props.id);
-  // 객체 복사
-  form.value = {...data}
-}
+const fetchPost = async () => {
+  try {
+    const { data } = await getPostById(props.id);
+    setPost(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const setPost = ({ title, content, createdAt }) => {
+  post.value.title = title;
+  post.value.content = content;
+  post.value.createdAt = createdAt;
+};
+
 fetchPost();
-
+const remove = async () => {
+  try {
+    if (confirm("삭제하시겠습니까?") == false) {
+      return;
+    }
+    await deletePost(props.id);
+    router.push({ name: "PostList" });
+  } catch (error) {
+    console.log(error);
+  }
+};
 const goListPage = () => router.push({ name: "PostList" });
 const goEditPage = () =>
   router.push({ name: "PostEdit", params: { id: props.id } });

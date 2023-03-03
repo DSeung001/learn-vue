@@ -34,23 +34,31 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const posts = ref([]);
 
-const fetchPosts = () => {
-  posts.value = getPosts();
+const fetchPosts = async () => {
+  // getPosts의 값은 Promise
+
+  try {
+    const { data } = await getPosts();
+    // ({ data : posts.value } = await getPosts());
+    posts.value = data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 fetchPosts();
 
 const goPage = (id) => {
   // router.push("/posts/${id}");
   router.push({
-    name:'PostDetail',
-    params:{
+    name: "PostDetail",
+    params: {
       id
-    },
+    }
     // query:{
     //   searchText : 'hello'
     // },
     // hash: '#world'
-  })
+  });
 };
 </script>
 

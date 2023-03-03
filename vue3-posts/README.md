@@ -33,3 +33,13 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Json-Server 
+
+```sh
+npx json-server --watch db.json --port=5000
+```
+or
+```sh
+npm run db
+```
