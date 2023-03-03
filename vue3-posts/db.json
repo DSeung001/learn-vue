@@ -1,65 +1,6 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "제목1",
-      "content": "내용1",
-      "createdAt": "2020-01-01"
-    },
-    {
-      "id": 2,
-      "title": "제목2",
-      "content": "내용2",
-      "createdAt": "2021-01-01"
-    },
-    {
-      "id": 3,
-      "title": "제목3",
-      "content": "내용4",
-      "createdAt": "2021-01-01"
-    },
-    {
-      "id": 4,
-      "title": "제목4",
-      "content": "내용4",
-      "createdAt": "2021-01-01"
-    },
-    {
-      "id": 5,
-      "title": "제목5",
-      "content": "내용5",
-      "createdAt": "2024-01-01"
-    },
-    {
-      "id": 6,
-      "title": "제목6",
-      "content": "내용6",
-      "createdAt": "2025-01-01"
-    },
-    {
-      "id": 7,
-      "title": "제목7",
-      "content": "내용7",
-      "createdAt": "2026-01-01"
-    },
-    {
-      "id": 8,
-      "title": "제목8",
-      "content": "내용8",
-      "createdAt": "2027-01-01"
-    },
-    {
-      "title": "제목9123",
-      "content": "내용9",
-      "id": 9
-    },
-    {
-      "id": 10,
-      "title": "제목10",
-      "content": "내용10",
-      "createdAt": "2029-01-01"
-    },
-    {
       "title": "zz",
       "content": "zz",
       "createdAt": 1677818896561,
@@ -76,6 +17,72 @@
       "content": "asd",
       "createdAt": 1677818905528,
       "id": 13
+    },
+    {
+      "title": "1231",
+      "content": "23",
+      "createdAt": 1677828516757,
+      "id": 14
+    },
+    {
+      "title": "new 1234",
+      "content": "1234",
+      "createdAt": 1677828547021,
+      "id": 15
+    },
+    {
+      "title": "안녕하세요",
+      "content": "첫글",
+      "createdAt": 1677828752597,
+      "id": 16
+    },
+    {
+      "title": "1231",
+      "content": "234",
+      "createdAt": 1677828788573,
+      "id": 17
+    },
+    {
+      "title": "1231",
+      "content": "234",
+      "createdAt": 1677828790388,
+      "id": 18
+    },
+    {
+      "title": "1234",
+      "content": "4444",
+      "createdAt": 1677828806117,
+      "id": 19
+    },
+    {
+      "title": "1234",
+      "content": "4444",
+      "createdAt": 1677828807164,
+      "id": 20
+    },
+    {
+      "title": "1234",
+      "content": "4444",
+      "createdAt": 1677828807716,
+      "id": 21
+    },
+    {
+      "title": "1234",
+      "content": "4444",
+      "createdAt": 1677828807869,
+      "id": 22
+    },
+    {
+      "title": "zzz",
+      "content": "zz",
+      "createdAt": 1677831079022,
+      "id": 23
+    },
+    {
+      "title": "1234",
+      "content": "123",
+      "createdAt": 1677831091718,
+      "id": 24
     }
   ]
 }

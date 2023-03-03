@@ -15,14 +15,10 @@
           </select>
         </div>
       </div>
-      
-      
     </form>
 
     <hr class="my-4">
-
     <div class="row g-4">
-
       <div v-for="post in posts" :key="post.id" class="col-4">
         <PostItem
           :title="post.title"
@@ -33,33 +29,20 @@
       </div>
     </div>
 
-    <nav class="my-5" aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item" :class="{disabled: !(params._page > 1)}">
-          <a class="page-link" href="#" aria-label="Previous" @click.prevent="--params._page">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
 
-        </li>
+    <AppPagination
+      :current-page="params._page"
+      :page-count="pageCount"
+      @page="page => params._page = page" />
 
-        <li v-for="page in pageCount" :key="page" class="page-item" :class="{active:params._page === page}">
-          <a class="page-link" href="#" @click.prevent="params._page = page">
-            {{ page }}
-          </a>
-        </li>
 
-        <li class="page-item" :class="{disabled: !(params._page < pageCount)}">
-          <a class="page-link" href="#" aria-label="Next" @click.prevent="++params._page">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <template v-if="posts && posts.length > 0">
+      <div class="my-4"></div>
+      <AppCard>
+        <PostDetailView :id="posts[0].id"></PostDetailView>
+      </AppCard>
+    </template>
 
-    <div class="my-4"></div>
-    <AppCard>
-      <PostDetailView :id="1"></PostDetailView>
-    </AppCard>
   </div>
 </template>
 
@@ -71,6 +54,7 @@ import { getPosts } from "@/api/posts";
 import { ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import { computed } from "@vue/reactivity";
+import AppPagination from "@/components/AppPagination.vue";
 
 const router = useRouter();
 const posts = ref([]);
@@ -79,7 +63,7 @@ const params = ref({
   _order: "desc",
   _page: 1,
   _limit: 3,
-  title_like: '',
+  title_like: ""
 });
 
 // pagination
