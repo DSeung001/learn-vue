@@ -8,27 +8,30 @@ const posts = [
   { id: 4, title: "제목4", content: "내용4", createdAt: "2023-01-01" },
   { id: 5, title: "제목5", content: "내용5", createdAt: "2024-01-01" },
   { id: 6, title: "제목6", content: "내용6", createdAt: "2025-01-01" },
-  { id: 7, title: "제목7", content: "내용7", createdAt: "2026-01-01" }
+  { id: 7, title: "제목7", content: "내용7", createdAt: "2026-01-01" },
+  { id: 8, title: "제목8", content: "내용8", createdAt: "2026-01-01" },
+  { id: 9, title: "제목9", content: "내용9", createdAt: "2026-01-01" },
+  { id: 10, title: "제목10", content: "내용10", createdAt: "2026-01-01" }
 ];
 
 const apiUrl = "http://localhost:5000";
 
-export function getPosts() {
-  return axios.get(apiUrl+"/posts");
+export function getPosts(params) {
+  return axios.get(apiUrl + "/posts", {params});
 }
 
 export function getPostById(id) {
-  return axios.get(apiUrl+`/posts/${id}`);
+  return axios.get(apiUrl + `/posts/${id}`);
 }
 
 export function createPost(data) {
-  return axios.post(apiUrl+`/posts`, data);
+  return axios.post(apiUrl + `/posts`, data);
 }
 
 export function updatePost(id, data) {
-  return axios.put(apiUrl+`/posts/${id}`, data);
+  return axios.put(apiUrl + `/posts/${id}`, data);
 }
 
 export function deletePost(id) {
-  return axios.delete(apiUrl+`/posts/${id}`);
+  return axios.delete(apiUrl + `/posts/${id}`);
 }
