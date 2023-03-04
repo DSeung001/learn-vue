@@ -8,6 +8,8 @@ import objPlugins from '@/plugins/obj';
 import globalComponents from '@/plugins/global-components';
 import 'bootstrap/dist/js/bootstrap.js';
 import person from '@/plugins/person';
+import globalDirectives from '@/plugins/global-directives';
+// import focus from '@/directives/focus';
 
 const app = createApp(App);
 
@@ -16,6 +18,8 @@ app.use(funcPlugins);
 app.use(objPlugins, { name: '짐코딩' });
 app.use(person, { name: '홍길동' });
 app.use(globalComponents);
+app.use(globalDirectives);
+// app.directive('focus', focus);
 app.mount('#app');
 
 /*
