@@ -5,7 +5,7 @@
       {{ content }}
     </p>
     <p class="test-muted">
-      {{ createdAt }}
+      {{ createdDate }}
     </p>
     <template #footer>
       <div class="d-flex flex-row-reverse">
@@ -18,7 +18,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed, inject } from 'vue';
+
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -32,6 +34,10 @@ defineProps({
 });
 
 defineEmits(['modal']);
+const dayjs = inject('dayjs');
+const createdDate = computed(() =>
+  dayjs(props.createdAt).format('YYYY.MM.DD HH:mm:ss'),
+);
 </script>
 
 <style scoped></style>
