@@ -19,11 +19,13 @@
       </template>
     </PostForm>
 
-    <AppAlert
+    <!--    <AppAlert
       :show="showAlert"
       :message="alertMessage"
       :type="alertType"
-    ></AppAlert>
+    ></AppAlert>-->
+
+    <AppAlert :items="alerts"></AppAlert>
   </div>
 </template>
 
@@ -64,7 +66,7 @@ const edit = async () => {
     vAlert('수정이 완료되었습니다.', 'success');
     // router.push({name: "PostDetail", params: {id}});
   } catch (error) {
-    vAlert('네트워크 오류');
+    vAlert(error.message);
     console.log(error);
   }
 };
@@ -73,17 +75,13 @@ fetchPost();
 
 const goDetailPage = () => router.push({ name: 'PostDetail', params: { id } });
 
-const showAlert = ref(false);
-const alertMessage = ref('');
-const alertType = ref('');
+const alerts = ref([]);
 
 // Alert은 이미 쓰는 네이밍이니까
 const vAlert = (message, type = 'error') => {
-  showAlert.value = true;
-  alertMessage.value = message;
-  alertType.value = type;
+  alerts.value.push({ message, type });
   setTimeout(() => {
-    showAlert.value = false;
+    alerts.value.shift();
   }, 2000);
 };
 </script>
