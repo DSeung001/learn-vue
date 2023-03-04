@@ -5,21 +5,21 @@
     <p>{{ $route.name }}</p>
     <button class="btn btn-primary" @click="goAboutPage">About으로 이동</button>
 
-    <hr class="my-4"/>
+    <hr class="my-4" />
 
-    <AppGridList v-slot="{ item }" :items="items" col-class="col-6">
+    <AppGrid v-slot="{ item }" :items="items" col-class="col-6">
       <AppCard>
         {{ item }}
       </AppCard>
-    </AppGridList>
+    </AppGrid>
   </div>
 </template>
 
 <script setup>
-import {useRouter} from 'vue-router';
-import {ref} from 'vue';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 import AppCard from '@/components/AppCard.vue';
-import AppGridList from '@/components/AppGridList.vue';
+import AppGrid from '@/components/AppGrid.vue';
 
 const router = useRouter();
 const goAboutPage = () => {

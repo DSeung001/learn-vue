@@ -30,14 +30,16 @@ const props = defineProps({
   createdAt: [String, Number],
 });
 
-const emit = defineEmits(['update:modalValue']);
+const emit = defineEmits(['update:modelValue']);
 
+// computed는 그냥 쓰면 읽기지만 get/set로 확장 가능
 const show = computed({
   get() {
     return props.modelValue;
   },
   set(value) {
-    emit('update:modalValue', value);
+    console.log(value);
+    emit('update:modelValue', value);
   },
 });
 
