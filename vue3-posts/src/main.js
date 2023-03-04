@@ -5,16 +5,18 @@ import App from './App.vue';
 import router from '@/router/index.js';
 import funcPlugins from '@/plugins/func';
 import objPlugins from '@/plugins/obj';
+import globalComponents from '@/plugins/global-components';
+import 'bootstrap/dist/js/bootstrap.js';
+import person from '@/plugins/person';
 
 const app = createApp(App);
+
 app.use(router);
 app.use(funcPlugins);
 app.use(objPlugins, { name: '짐코딩' });
 app.use(person, { name: '홍길동' });
+app.use(globalComponents);
 app.mount('#app');
-
-import 'bootstrap/dist/js/bootstrap.js';
-import person from '@/plugins/person';
 
 /*
 console.log("MODE : ", import.meta.env.MODE)

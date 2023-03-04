@@ -33,8 +33,6 @@ export default {
 <script setup>
 import { useRouter } from 'vue-router';
 import { inject, ref } from 'vue';
-import AppCard from '@/components/AppCard.vue';
-import AppGrid from '@/components/AppGrid.vue';
 // inject 또는 import로 가져올 수 있음
 // import person from '@/plugins/person';
 
