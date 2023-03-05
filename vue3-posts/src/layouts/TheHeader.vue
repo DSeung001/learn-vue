@@ -48,7 +48,15 @@
                 Nested
               </RouterLink>
             </li>
-
+            <li class="nav-item">
+              <RouterLink
+                class="nav-link active"
+                to="/my"
+                active-class="active"
+              >
+                MyPage
+              </RouterLink>
+            </li>
           </ul>
           <div class="d-flex">
             <button

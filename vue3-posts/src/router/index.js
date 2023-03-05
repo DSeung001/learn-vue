@@ -1,43 +1,43 @@
-import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
-import AboutView from "@/views/AboutView.vue";
-import PostCreateView from "@/views/posts/PostCreateView.vue";
-import PostDetailView from "@/views/posts/PostDetailView.vue";
-import PostEditView from "@/views/posts/PostEditView.vue";
-import PostListView from "@/views/posts/PostListView.vue";
-import NotFoundView from "@/views/NotFoundView.vue";
-import NestedView from "@/views/nested/NestedView.vue";
-import NestedOneView from "@/views/nested/NestedOneView.vue";
-import NestedTwoView from "@/views/nested/NestedTwoView.vue";
-import NestedHomeView from "@/views/nested/NestedHomeView.vue";
-
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '@/views/HomeView.vue';
+import AboutView from '@/views/AboutView.vue';
+import PostCreateView from '@/views/posts/PostCreateView.vue';
+import PostDetailView from '@/views/posts/PostDetailView.vue';
+import PostEditView from '@/views/posts/PostEditView.vue';
+import PostListView from '@/views/posts/PostListView.vue';
+import NotFoundView from '@/views/NotFoundView.vue';
+import NestedView from '@/views/nested/NestedView.vue';
+import NestedOneView from '@/views/nested/NestedOneView.vue';
+import NestedTwoView from '@/views/nested/NestedTwoView.vue';
+import NestedHomeView from '@/views/nested/NestedHomeView.vue';
+import MyPage from '@/views/MyPage.vue';
 
 // 정규식도 가능
 // /를 넣어야 절대경로로 정상 작동함!
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: HomeView
+    path: '/',
+    name: 'Home',
+    component: HomeView,
   },
   {
-    path: "/about",
-    name: "About",
-    component: AboutView
+    path: '/about',
+    name: 'About',
+    component: AboutView,
   },
   {
-    path: "/posts",
-    name: "PostList",
-    component: PostListView
+    path: '/posts',
+    name: 'PostList',
+    component: PostListView,
   },
   {
-    path: "/posts/create",
-    name: "PostCreate",
-    component: PostCreateView
+    path: '/posts/create',
+    name: 'PostCreate',
+    component: PostCreateView,
   },
   {
-    path: "/posts/:id",
-    name: "PostDetail",
+    path: '/posts/:id',
+    name: 'PostDetail',
     component: PostDetailView,
     props: true,
     // props : (route) =>{
@@ -49,47 +49,75 @@ const routes = [
     // props: (route) => ({ id: parseInt(route.params.id) }),
   },
   {
-    path: "/posts/:id/edit",
-    name: "PostEdit",
-    component: PostEditView
+    path: '/posts/:id/edit',
+    name: 'PostEdit',
+    component: PostEditView,
   },
   {
-    path: "/:pathMatch(.*)*",
-    name: "NotFound",
-    component: NotFoundView
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFoundView,
   },
   {
-    path: "/nested",
-    name: "Nested",
+    path: '/nested',
+    name: 'Nested',
     component: NestedView,
     children: [
       {
-        path: "",
-        name: "NestedHome",
-        component: NestedHomeView
+        path: '',
+        name: 'NestedHome',
+        component: NestedHomeView,
       },
       {
-        path: "one",
-        name: "NestedOne",
-        component: NestedOneView
-      }
-      , {
-        path: "two",
-        name: "NestedTwo",
-        component: NestedTwoView
-      }
-    ]
-  }
+        path: 'one',
+        name: 'NestedOne',
+        component: NestedOneView,
+      },
+      {
+        path: 'two',
+        name: 'NestedTwo',
+        component: NestedTwoView,
+      },
+    ],
+  },
+  {
+    path: '/my',
+    component: MyPage,
+    name: 'MyPage',
+    beforeEnter: [
+      removeQueryString,
+      (to, from) => {
+        console.log(to);
+        console.log(from);
+      },
+    ],
+  },
 ];
+
+function removeQueryString(to) {
+  if (Object.keys(to.query).length > 0) {
+    return { path: to.path, query: {} };
+  }
+}
 
 // Hash와 History의 차이는 서버에 배포 방법의 차이
 // # 뒤에 문구는 서버 요청에 안 붙음
 // # 해시모드로 최적화시 => SEO에 악영향
 // 그러므로 대부분 History 모드 사용
 const router = createRouter({
-  history: createWebHistory("/"),
+  history: createWebHistory('/'),
   // history : createWebHashHistory('/base'),
-  routes
+  routes,
+});
+
+router.beforeEach((to, from) => {
+  // console.log('to: ', to);
+  // console.log('from: ', from);
+  if (to.name === 'MyPage') {
+    // return false;
+    // return { name: 'Home' };
+    // return '/posts';
+  }
 });
 
 export default router;

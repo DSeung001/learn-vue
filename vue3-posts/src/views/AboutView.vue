@@ -23,13 +23,10 @@ import { useCounterStore } from '@/stores/counter';
 import { storeToRefs } from 'pinia';
 
 const route = useRoute();
-console.log(route);
 
 const store = useCounterStore();
 const { counter, doubleCount, doubleCountPlusOne } = storeToRefs(store);
 const { increment } = store;
-console.log(store);
-console.log(counter);
 
 // vue2는 바로 대입 못했지만 vue3에서는 가능!
 counter.value = 100;
