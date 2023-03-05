@@ -27,7 +27,7 @@
       </template>
     </PostForm>
 
-    <AppAlert :items="alerts"></AppAlert>
+    <AppAlert></AppAlert>
   </div>
 </template>
 
@@ -39,30 +39,35 @@ import PostForm from '@/components/posts/PostForm.vue';
 import AppAlert from '@/components/app/AppAlert.vue';
 import { useAlert } from '@/composables/alert';
 import AppError from '@/components/app/AppError.vue';
+import { useAxios } from '@/hooks/useAxios';
 
-const { vSuccess } = useAlert();
+const { vAlert, vSuccess } = useAlert();
 const router = useRouter();
-const error = ref(null);
-const loading = ref(false);
 const form = ref({
   title: null,
   content: null,
 });
 
+const { error, loading, execute } = useAxios(
+  '/posts',
+  {
+    method: 'post',
+  },
+  {
+    immediate: false,
+    onSuccess: () => {
+      router.push({ name: 'PostList' });
+      vSuccess('등록이 완료되었습니다');
+    },
+    onError: err => {
+      vAlert(err.message);
+    },
+  },
+);
+
 const save = async () => {
-  try {
-    loading.value = true;
-    await createPost({
-      ...form.value,
-      createdAt: Date.now(),
-    });
-    router.push({ name: 'PostList' });
-    vSuccess('등록이 완료되었습니다');
-  } catch (err) {
-    error.value = err;
-  } finally {
-    loading.value = false;
-  }
+  console.log(form.value);
+  execute({ ...form.value, createdAt: Date.now() });
 };
 
 const goListPage = () => router.push({ name: 'PostList' });

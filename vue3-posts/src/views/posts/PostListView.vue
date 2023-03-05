@@ -52,18 +52,15 @@
 <script setup>
 import PostItem from '@/components/posts/PostItem.vue';
 import PostDetailView from '@/views/posts/PostDetailView.vue';
-import { getPosts } from '@/api/posts';
 import { computed, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import PostFilter from '@/components/posts/PostFilter.vue';
 import PostModal from '@/components/posts/PostModal.vue';
 import AppLoading from '@/components/app/AppLoading.vue';
 import AppError from '@/components/app/AppError.vue';
+import { useAxios } from '@/hooks/useAxios';
 
 const router = useRouter();
-const posts = ref([]);
-const error = ref(null);
-const loading = ref(false);
 const params = ref({
   _sort: 'createdAt',
   _order: 'desc',
@@ -72,15 +69,22 @@ const params = ref({
   title_like: '',
 });
 
+// data => posts로 할당
+const {
+  response,
+  data: posts,
+  error,
+  loading,
+} = useAxios('/posts', { params });
+
 // pagination
-const totalCount = ref(0);
+const totalCount = computed(() => response.value.headers['x-total-count']);
 const pageCount = computed(() =>
   Math.ceil(totalCount.value / params.value._limit),
 );
 
-const fetchPosts = async () => {
+/*const fetchPosts = async () => {
   // getPosts의 값은 Promise
-
   try {
     loading.value = true;
     const { data, headers } = await getPosts(params.value);
@@ -92,11 +96,11 @@ const fetchPosts = async () => {
     loading.value = false;
   }
 };
-
 // fetchPosts();
 // watchEffect 안에 반응형 데이터가 콜백함수 호출함
 // watch와 다르게 초기에 한번 실행 해줌
 watchEffect(fetchPosts);
+*/
 
 const goPage = id => {
   // router.push("/posts/${id}");

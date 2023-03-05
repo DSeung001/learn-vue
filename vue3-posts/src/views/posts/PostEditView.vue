@@ -46,58 +46,37 @@ import { ref } from 'vue';
 import { getPostById, updatePost } from '@/api/posts';
 import PostForm from '@/components/posts/PostForm.vue';
 import { useAlert } from '@/composables/alert';
+import { useAxios } from '@/hooks/useAxios';
 
 const { vAlert, vSuccess } = useAlert();
 const route = useRoute();
 const router = useRouter();
 const id = route.params.id;
 
-const form = ref({
-  title: null,
-  content: null,
-});
+const { data: form, error, loading } = useAxios(`/posts/${id}`);
 
-const error = ref(null);
-const loading = ref(false);
+const {
+  error: editError,
+  loading: editLoading,
+  execute,
+} = useAxios(
+  `/posts/${id}`,
+  { method: 'patch' },
+  {
+    immediate: false,
+    onSuccess: () => {
+      vSuccess('수정이 완료되었습니다.');
+      router.push({ name: 'PostDetail', params: { id } });
+    },
+    onError: err => {
+      vAlert(err.message);
+    },
+  },
+);
 
-const fetchPost = async () => {
-  try {
-    loading.value = true;
-    const { data } = await getPostById(id);
-    console.log(data);
-    setForm(data);
-  } catch (err) {
-    error.value = err;
-  } finally {
-    loading.value = false;
-  }
+const edit = () => {
+  execute({ ...form.value });
 };
-
-const setForm = ({ title, content }) => {
-  form.value.title = title;
-  form.value.content = content;
-};
-
-const editError = ref(null);
-const editLoading = ref(false);
-
-const edit = async () => {
-  try {
-    editLoading.value = true;
-    await updatePost(id, { ...form.value });
-    vSuccess('수정이 완료되었습니다.');
-    router.push({ name: 'PostDetail', params: { id } });
-  } catch (err) {
-    vAlert(err.message);
-    console.log(err);
-    editError.value = err;
-  } finally {
-    editLoading.value = false;
-  }
-};
-
-fetchPost();
-
 const goDetailPage = () => router.push({ name: 'PostDetail', params: { id } });
 </script>
 

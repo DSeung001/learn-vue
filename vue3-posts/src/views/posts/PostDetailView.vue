@@ -51,71 +51,41 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { getPostById, deletePost } from '@/api/posts';
-import { ref } from 'vue';
+import { useAxios } from '@/hooks/useAxios';
+import { useAlert } from '@/composables/alert';
+
+const { vSuccess, vAlert } = useAlert();
 
 const props = defineProps({
   id: [String, Number],
 });
 
 const router = useRouter();
+const { data: post, error, loading } = useAxios(`/posts/${props.id}`);
 
-/*
- * 객체 생성
- * ref :
- * - 한꺼번에 객체 할당이 가능
- * - .value로 접근
- * - 일관성 있게 개발이 가능, 기존 회사의 컨밴션을 따름
- *
- * reactive :
- * - 한번에 하나 씩 할당
- * - 객체할당 할 시 반응형 클래스가 아닌 Object로 됨
- * - .value로 안하고 바로 접근ㄱ 가능
- * */
-const post = ref({
-  title: null,
-  content: null,
-  createdAt: null,
-});
-
-const error = ref(null);
-const loading = ref(false);
-
-const fetchPost = async () => {
-  try {
-    loading.value = true;
-    const { data } = await getPostById(props.id);
-    setPost(data);
-  } catch (err) {
-    error.value = err;
-  } finally {
-    loading.value = false;
-  }
-};
-
-const setPost = ({ title, content, createdAt }) => {
-  post.value.title = title;
-  post.value.content = content;
-  post.value.createdAt = createdAt;
-};
-
-fetchPost();
-
-const removeError = ref(null);
-const removeLoading = ref(false);
+const {
+  error: removeError,
+  loading: removeLoading,
+  execute,
+} = useAxios(
+  `/posts/${props.id}`,
+  { method: 'delete' },
+  {
+    immediate: false,
+    onSuccess: () => {
+      vSuccess('삭제가 완료되었습니다.');
+      router.push({ name: 'PostList' });
+    },
+    onError: err => {
+      vAlert(err.message);
+    },
+  },
+);
 const remove = async () => {
-  try {
-    if (confirm('삭제하시겠습니까?') == false) {
-      return;
-    }
-    removeLoading.value = true;
-    await deletePost(props.id);
-    router.push({ name: 'PostList' });
-  } catch (err) {
-    removeError.value = err;
-  } finally {
-    removeLoading.value = false;
+  if (confirm('삭제하시겠습니까?') == false) {
+    return;
   }
+  execute();
 };
 const goListPage = () => router.push({ name: 'PostList' });
 const goEditPage = () =>
