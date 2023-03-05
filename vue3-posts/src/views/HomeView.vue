@@ -14,9 +14,12 @@
     </AppGrid>
 
     <hr class="my-4" />
-    <!--    템플릿에서 전역 접근-->
-    <h2>{{ $person.name }}</h2>
-    <button class="btn btn-primary" @click="person.say">click person</button>
+
+    <h2>
+      {{ position }}
+      {{ x }}
+      {{ y }}
+    </h2>
   </div>
 </template>
 
@@ -32,7 +35,7 @@ export default {
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { inject, ref } from 'vue';
+import { reactive, ref, toRef, toRefs } from 'vue';
 // inject 또는 import로 가져올 수 있음
 // import person from '@/plugins/person';
 
@@ -45,8 +48,17 @@ const goAboutPage = () => {
 
 const items = ref(['사과', '딸기', '포도']);
 
-const person = inject('person');
-console.log('person.name', person.name);
+// const person = inject('person');
+// console.log('person.name', person.name);
+
+const position = reactive({
+  x: 100,
+  y: 1000,
+});
+// Q x의 값을 반응형을 잃지 않고 뽑기 => 동기화를 유지한채 뽑아내기
+/*const x = toRef(position, 'x');
+const y = toRef(position, 'y');*/
+const { x, y } = toRefs(position);
 </script>
 
 <style scoped></style>

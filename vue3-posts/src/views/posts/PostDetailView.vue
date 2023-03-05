@@ -3,6 +3,7 @@
   <AppError v-else-if="error" :message="error.message" />
   <div v-else>
     <h2>{{ post.title }}</h2>
+    <p>id: {{ props.id }}, isOdd: {{ isOdd }}</p>
     <p>
       {{ post.content }}
     </p>
@@ -53,6 +54,8 @@
 import { useRouter } from 'vue-router';
 import { useAxios } from '@/hooks/useAxios';
 import { useAlert } from '@/composables/alert';
+import { computed, toRef, toRefs } from 'vue';
+import { useNumber } from '@/composables/number';
 
 const { vSuccess, vAlert } = useAlert();
 
@@ -61,7 +64,11 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const { data: post, error, loading } = useAxios(`/posts/${props.id}`);
+const { id: idRef } = toRefs(props);
+// const idRef = toRef(props, 'id');
+const { isOdd } = useNumber(idRef);
+const url = computed(() => `/posts/${props.id}`);
+const { data: post, error, loading } = useAxios(url);
 
 const {
   error: removeError,

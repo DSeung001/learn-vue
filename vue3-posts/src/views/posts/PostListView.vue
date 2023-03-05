@@ -20,6 +20,7 @@
             :created-at="item.createdAt"
             @click="goPage(item.id)"
             @modal="openModal(item)"
+            @preview="selectPreview(item.id)"
           ></PostItem>
         </template>
       </AppGrid>
@@ -40,10 +41,10 @@
       />
     </Teleport>
 
-    <template v-if="posts && posts.length > 0">
+    <template v-if="previewId">
       <div class="my-4"></div>
       <AppCard>
-        <PostDetailView :id="posts[0].id"></PostDetailView>
+        <PostDetailView :id="previewId"></PostDetailView>
       </AppCard>
     </template>
   </div>
@@ -61,6 +62,10 @@ import AppError from '@/components/app/AppError.vue';
 import { useAxios } from '@/hooks/useAxios';
 
 const router = useRouter();
+const previewId = ref(null);
+const selectPreview = id => {
+  previewId.value = id;
+};
 const params = ref({
   _sort: 'createdAt',
   _order: 'desc',
@@ -82,26 +87,6 @@ const totalCount = computed(() => response.value.headers['x-total-count']);
 const pageCount = computed(() =>
   Math.ceil(totalCount.value / params.value._limit),
 );
-
-/*const fetchPosts = async () => {
-  // getPosts의 값은 Promise
-  try {
-    loading.value = true;
-    const { data, headers } = await getPosts(params.value);
-    posts.value = data;
-    totalCount.value = headers['x-total-count'];
-  } catch (err) {
-    error.value = err;
-  } finally {
-    loading.value = false;
-  }
-};
-// fetchPosts();
-// watchEffect 안에 반응형 데이터가 콜백함수 호출함
-// watch와 다르게 초기에 한번 실행 해줌
-watchEffect(fetchPosts);
-*/
-
 const goPage = id => {
   // router.push("/posts/${id}");
   router.push({
