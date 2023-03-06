@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row g-4">
-      <div class="col-3" v-for="(item, index ) in movieList" :key="index">
+      <div class="col-12 col-md-6 col-lg-3" v-for="(item, index ) in movieList" :key="index">
         <div class="card p-1">
           <img class="card-img-top" :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`" alt="Card image cap">
           <div class="card-body">
@@ -18,7 +18,7 @@
             </li>
             <li class="list-group-item">
               Genre :
-              {{item.genre_ids}}
+              {{ item.genre_text }}
             </li>
             <li class="list-group-item">
               Language : {{ item.original_language }}
@@ -54,33 +54,48 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
-import { getDiscoverList, getGenreList } from "@/api/movie";
+import {ref, watchEffect} from "vue";
+import {getDiscoverList, getGenreList} from "@/api/movie";
 
 const movieList = ref(null);
 const genreList = ref(null);
 
-const setMovieList = async () => {
+const setList = async () => {
   try {
-    const { data } = await getDiscoverList();
-    console.log(data.results);
-    movieList.value = data.results;
+    const {data: discoverData} = await getDiscoverList();
+    let {data: genreData} = await getGenreList();
+
+    // 장르는 스토어로 처리할 듯 => 상세 페이지 및 쓰는 곳이 많다
+    let genreMap;
+    if (genreList.value === null){
+      genreMap = new Map();
+      genreData.genres.forEach((genre) => {
+        genreMap.set(genre.id, genre.name)
+      })
+      genreList.value = genreMap;
+    } else {
+      genreMap = genreList.value;
+    }
+
+    let discoverList = discoverData.results;
+    discoverList.forEach((item, index) => {
+      discoverList[index].genre_text = ""
+
+      item.genre_ids.forEach((id) => {
+        discoverList[index].genre_text = discoverList[index].genre_text + genreMap.get(id) + " "
+      })
+    })
+
+    movieList.value = discoverList;
+    genreList.value = genreData;
+
   } catch (error) {
     console.log(error);
   }
 };
 
-const setGenreList = async() =>{
-  try {
-    const { data } = await getGenreList();
-    genreList.value = data;
-  } catch (error) {
-    console.log(error);
-  }
-}
+watchEffect(setList);
 
-watchEffect(setMovieList);
-watchEffect(setGenreList);
 </script>
 
 <style lang="sass">
