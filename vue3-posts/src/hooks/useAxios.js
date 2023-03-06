@@ -3,7 +3,7 @@ import { isRef, ref, unref, watchEffect } from 'vue';
 
 /*
  *
- * VueUse 사이트 또는 Vue use axios 키워드로 검색하면 다양한 자료들이 나옴\
+ * VueUse 사이트 또는 Vue use axios 키워드로 검색하면 다양한 자료들이 나옴
  * hook 폴더에 넣었지만 Composables 임
  *
  * Composables 처리는 Ref를 주로 쓰나 Ref 아닐 때도 처리하기 위해 unref 사용을 추천
