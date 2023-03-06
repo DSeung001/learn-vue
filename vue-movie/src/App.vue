@@ -1,14 +1,19 @@
 <script setup>
+import TheHeader from "@/layouts/TheHeader.vue";
+import TheView from "@/layouts/TheView.vue";
 </script>
 
 <template>
-  <div>
-    <h3>
-      hello world
-    </h3>
-  </div>
+<div>
+  <TheHeader></TheHeader>
+  <TheView></TheView>
+</div>
 </template>
 
 <style scoped>
+
+</style>
+
+<style lang="scss">
 
 </style>
