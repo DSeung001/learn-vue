@@ -54,37 +54,38 @@
 </template>
 
 <script setup>
-import {ref, watchEffect} from "vue";
-import {getDiscoverList, getGenreList} from "@/api/movie";
+import { onMounted, ref, watchEffect } from "vue";
+import { getDiscoverList, getGenreList } from "@/api/movie";
+import { useGenreStore } from "@/stores/genre";
+
 
 const movieList = ref(null);
 const genreList = ref(null);
+const genreStroe = useGenreStore();
+
+onMounted(() => {
+  if (genreStroe.genres.size === 0) {
+    genreStroe.fetchGenres();
+  }
+});
 
 const setList = async () => {
+
   try {
-    const {data: discoverData} = await getDiscoverList();
-    let {data: genreData} = await getGenreList();
+    const { data: discoverData } = await getDiscoverList();
+    let { data: genreData } = await getGenreList();
 
     // 장르는 스토어로 처리할 듯 => 상세 페이지 및 쓰는 곳이 많다
-    let genreMap;
-    if (genreList.value === null){
-      genreMap = new Map();
-      genreData.genres.forEach((genre) => {
-        genreMap.set(genre.id, genre.name)
-      })
-      genreList.value = genreMap;
-    } else {
-      genreMap = genreList.value;
-    }
+
 
     let discoverList = discoverData.results;
     discoverList.forEach((item, index) => {
-      discoverList[index].genre_text = ""
+      discoverList[index].genre_text = "";
 
       item.genre_ids.forEach((id) => {
-        discoverList[index].genre_text = discoverList[index].genre_text + genreMap.get(id) + " "
-      })
-    })
+        discoverList[index].genre_text = discoverList[index].genre_text + genreStroe.genres.get(id) + " ";
+      });
+    });
 
     movieList.value = discoverList;
     genreList.value = genreData;
