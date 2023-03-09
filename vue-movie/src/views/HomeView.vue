@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <div class="row g-4">
       <div class="col-12 col-md-6 col-lg-3" v-for="(item, index ) in movieList" :key="index">
         <div class="card p-1">
@@ -12,8 +12,8 @@
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              Popularity :
-              <div class="star-rating" :style="`--rating: ${item.popularity/1000};`">
+              Vote :
+              <div class="star-rating" :style="`--rating: ${item.vote_average/2};`">
               </div>
             </li>
             <li class="list-group-item">
@@ -31,71 +31,80 @@
       </div>
     </div>
 
-
-    <nav style="margin-top: 40px">
-      <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <span class="page-link">&larr;</span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active">
-            <span class="page-link">
-              2
-              <span class="sr-only"></span>
-            </span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">&rarr;</a>
-        </li>
-      </ul>
-    </nav>
+<!--  <MoviePagination-->
+<!--    :current-page="currentPage"-->
+<!--    :start-page="startPage"-->
+<!--    :last-page="lastPage"-->
+<!--  />-->
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, watchEffect } from "vue";
-import { getDiscoverList, getGenreList } from "@/api/movie";
+import { computed, ref, watch, watchEffect } from "vue";
+import { getDiscoverList } from "@/api/movie";
 import { useGenreStore } from "@/stores/genre";
 
+import MoviePagination from "@/components/movile/moviePagination.vue";
 
 const movieList = ref(null);
-const genreList = ref(null);
-const genreStroe = useGenreStore();
+const genreStore = useGenreStore();
 
-onMounted(() => {
-  if (genreStroe.genres.size === 0) {
-    genreStroe.fetchGenres();
-  }
-});
+
+const totalPages = ref(1);
+const currentPage = ref(1);
+const startPage = computed(()=>currentPage.value - 5 <= 1 ? 1 : currentPage.value);
+const lastPage = computed(()=>currentPage.value + 5 <= totalPages.value  ? currentPage.value + 5 : totalPages.value );
 
 const setList = async () => {
 
+  if (genreStore.genres.size === 0) {
+    genreStore.fetchGenres();
+  }
+
   try {
-    const { data: discoverData } = await getDiscoverList();
-    let { data: genreData } = await getGenreList();
+    const { data: discoverData } = await getDiscoverList({
+      page: currentPage.value
+    });
 
-    // 장르는 스토어로 처리할 듯 => 상세 페이지 및 쓰는 곳이 많다
-
+    totalPages.value = discoverData.total_pages;
 
     let discoverList = discoverData.results;
     discoverList.forEach((item, index) => {
       discoverList[index].genre_text = "";
 
       item.genre_ids.forEach((id) => {
-        discoverList[index].genre_text = discoverList[index].genre_text + genreStroe.genres.get(id) + " ";
+        let genre = genreStore.genres.get(id);
+        discoverList[index].genre_text = discoverList[index].genre_text +
+          (genre === undefined ? "" : genre) + " ";
       });
     });
 
     movieList.value = discoverList;
-    genreList.value = genreData;
 
   } catch (error) {
     console.log(error);
   }
 };
 
+const nextPage = () => {
+  if (currentPage.value === 0) {
+    return;
+  }
+  currentPage.value++;
+};
+
+const setPage = (pageNum) => {
+  currentPage.value = pageNum;
+};
+
+const prevPage = () => {
+  currentPage.value--;
+};
+
 watchEffect(setList);
+watch(currentPage, () => {
+  window.scrollTo(0, 0);
+});
 
 </script>
 

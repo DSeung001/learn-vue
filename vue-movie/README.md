@@ -33,3 +33,6 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## API Document
+### [Api document url](https://developers.themoviedb.org/3)
