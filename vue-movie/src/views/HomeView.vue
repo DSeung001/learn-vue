@@ -31,11 +31,14 @@
       </div>
     </div>
 
-<!--  <MoviePagination-->
-<!--    :current-page="currentPage"-->
-<!--    :start-page="startPage"-->
-<!--    :last-page="lastPage"-->
-<!--  />-->
+  <MoviePagination
+    :current-page="currentPage"
+    @setPage="page => (
+       currentPage = page
+    )"
+    :start-page="startPage"
+    :last-page="lastPage"
+  />
   </div>
 </template>
 
@@ -52,8 +55,8 @@ const genreStore = useGenreStore();
 
 const totalPages = ref(1);
 const currentPage = ref(1);
-const startPage = computed(()=>currentPage.value - 5 <= 1 ? 1 : currentPage.value);
-const lastPage = computed(()=>currentPage.value + 5 <= totalPages.value  ? currentPage.value + 5 : totalPages.value );
+const startPage = computed(()=>currentPage.value - 2 <= 1 ? 1 : currentPage.value-2);
+const lastPage = computed(()=>currentPage.value + 2 <= totalPages.value  ? currentPage.value + 2 : totalPages.value );
 
 const setList = async () => {
 
@@ -84,21 +87,6 @@ const setList = async () => {
   } catch (error) {
     console.log(error);
   }
-};
-
-const nextPage = () => {
-  if (currentPage.value === 0) {
-    return;
-  }
-  currentPage.value++;
-};
-
-const setPage = (pageNum) => {
-  currentPage.value = pageNum;
-};
-
-const prevPage = () => {
-  currentPage.value--;
 };
 
 watchEffect(setList);
