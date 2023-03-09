@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="row g-4">
-      <div class="col-12 col-md-6 col-lg-3" v-for="(item, index ) in movieList" :key="index">
+      <div class="col-12 col-md-6 col-lg-3" v-for="(item, index ) in movieList" :key="index" style="cursor: pointer"
+           @click="goMovieDetail(item.id)">
         <div class="card p-1">
           <img class="card-img-top" :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`" alt="Card image cap">
           <div class="card-body">
@@ -43,20 +44,21 @@
 </template>
 
 <script setup>
-import { computed, ref, watch, watchEffect } from "vue";
-import { getDiscoverList } from "@/api/movie";
-import { useGenreStore } from "@/stores/genre";
-
+import {computed, ref, watch, watchEffect} from "vue";
+import {getDiscoverList} from "@/api/movie";
+import {useGenreStore} from "@/stores/genre";
 import MoviePagination from "@/components/movile/moviePagination.vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 const movieList = ref(null);
 const genreStore = useGenreStore();
 
-
 const totalPages = ref(1);
 const currentPage = ref(1);
-const startPage = computed(()=>currentPage.value - 2 <= 1 ? 1 : currentPage.value-2);
-const lastPage = computed(()=>currentPage.value + 2 <= totalPages.value  ? currentPage.value + 2 : totalPages.value );
+const startPage = computed(() => currentPage.value - 2 <= 1 ? 1 : currentPage.value - 2);
+const lastPage = computed(() => currentPage.value + 2 <= totalPages.value ? currentPage.value + 2 : totalPages.value);
 
 const setList = async () => {
 
@@ -78,7 +80,7 @@ const setList = async () => {
       item.genre_ids.forEach((id) => {
         let genre = genreStore.genres.get(id);
         discoverList[index].genre_text = discoverList[index].genre_text +
-          (genre === undefined ? "" : genre) + " ";
+            (genre === undefined ? "" : genre) + " ";
       });
     });
 
@@ -88,6 +90,16 @@ const setList = async () => {
     console.log(error);
   }
 };
+
+const goMovieDetail = id => {
+  console.log(id);
+  router.push({
+    name: "MovieDetail",
+    params: {
+      id
+    }
+  })
+}
 
 watchEffect(setList);
 watch(currentPage, () => {
