@@ -92,7 +92,6 @@ const setList = async () => {
 };
 
 const goMovieDetail = id => {
-  console.log(id);
   router.push({
     name: "MovieDetail",
     params: {

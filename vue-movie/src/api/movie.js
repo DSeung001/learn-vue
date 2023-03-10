@@ -26,6 +26,15 @@ export function getMovieDetail(id) {
   })
 }
 
+export function getSimilarMovies(id){
+  return movieAPI.get(`/${id}/similar`, {
+    params: {
+      language: import.meta.env.VITE_APP_API_LANGUAGE
+
+    }
+  })
+}
+
 // 인기작
 export function getMovieTopRated(page) {
   return movieAPI.get("top_rated", {
