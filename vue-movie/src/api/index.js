@@ -21,3 +21,4 @@ export const discoverAPI = create('discover');
 export const movieAPI = create('movie');
 export const searchAPI = create('search');
 export const gerenAPI = create('genre');
+export const trendingAPI = create('trending')

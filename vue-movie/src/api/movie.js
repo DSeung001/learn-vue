@@ -1,4 +1,4 @@
-import { discoverAPI, gerenAPI, movieAPI, searchAPI } from "@/api/index";
+import {discoverAPI, gerenAPI, movieAPI, searchAPI, trendingAPI} from "@/api/index";
 
 export function getSearchList(parameters){
   return searchAPI.get("movie",{
@@ -66,10 +66,14 @@ export function getGenreList() {
 
 // 영화 리스트 가져오기
 export function getDiscoverList(parameters = null){
-  const test =  discoverAPI.get("movie",{
+  return discoverAPI.get("movie",{
     params : {
       ...parameters
     }
   });
-  return test;
+}
+
+// 트렌드
+export function getTrendingList(media = 'all', time = 'week'){
+  return  trendingAPI.get(`${media}/${time}`);
 }

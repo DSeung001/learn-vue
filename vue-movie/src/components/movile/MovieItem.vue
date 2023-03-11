@@ -1,7 +1,7 @@
 <template>
   <div class="card p-1">
 
-    <img class="card-img-top" v-if="!(simplificationStore.getSimply)"
+    <img class="card-img-top"
          :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`"
          alt="Card image cap"
     >
@@ -11,7 +11,7 @@
         {{ item.overview }}
       </p>
     </div>
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush" v-if="!(simplificationStore.getSimply)">
       <li class="list-group-item">
         Vote :
         <div class="star-rating" :style="`--rating: ${item.vote_average/2};`">
