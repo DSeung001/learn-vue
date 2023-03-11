@@ -1,45 +1,22 @@
 <template>
   <div>
-    <div class="row g-4">
-      <div class="col-12 col-md-6 col-lg-3" v-for="(item, index ) in movieList" :key="index" style="cursor: pointer"
-           @click="goMovieDetail(item.id)">
-        <div class="card p-1">
-          <img class="card-img-top" :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title text-truncate">{{ item.title }}</h5>
-            <p class="card-text text-truncate" style="max-height: 30px; min-height: 30px">
-              {{ item.overview }}
-            </p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              Vote :
-              <div class="star-rating" :style="`--rating: ${item.vote_average/2};`">
-              </div>
-            </li>
-            <li class="list-group-item">
-              Genre :
-              {{ item.genre_text }}
-            </li>
-            <li class="list-group-item">
-              Language : {{ item.original_language }}
-              <span v-if="item.adult">
-                 / adult
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <MovieGrid :items="movieList">
+      <template v-slot="{item}">
+        <MovieItem
+            :item="item"
+            @click="goMovieDetail(item.id)"/>
+      </template>
 
-  <MoviePagination
-    :current-page="currentPage"
-    @setPage="page => (
+    </MovieGrid>
+
+    <MoviePagination
+        :current-page="currentPage"
+        @setPage="page => (
        currentPage = page
     )"
-    :start-page="startPage"
-    :last-page="lastPage"
-  />
+        :start-page="startPage"
+        :last-page="lastPage"
+    />
   </div>
 </template>
 
@@ -49,10 +26,12 @@ import {getDiscoverList} from "@/api/movie";
 import {useGenreStore} from "@/stores/genre";
 import MoviePagination from "@/components/movile/moviePagination.vue";
 import {useRouter} from "vue-router";
+import MovieGrid from "@/components/movile/MovieGrid.vue";
+import MovieItem from "@/components/movile/MovieItem.vue";
 
 const router = useRouter();
 
-const movieList = ref(null);
+const movieList = ref([]);
 const genreStore = useGenreStore();
 
 const totalPages = ref(1);

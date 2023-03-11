@@ -18,8 +18,8 @@
          :src="`https://image.tmdb.org/t/p/w500/${content.poster_path}`" alt="Card image cap">
   </div>
 
-  <div class="row g-4" style="min-height: 450px">
-    <div v-for="video in content.videos.results" class="col-12 col-md-9 col-lg-6">
+  <div class="row g-4" v-if="content.videos">
+    <div v-for="video in content.videos.results" class="col-12 col-md-9 col-lg-6" style="min-height: 450px">
       <p style="height: 20px">
         {{ video.name }}
       </p>
