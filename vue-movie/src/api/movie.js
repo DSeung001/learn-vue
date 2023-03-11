@@ -26,11 +26,21 @@ export function getMovieDetail(id) {
   })
 }
 
-export function getSimilarMovies(id){
+// 비슷한 작품
+export function getSimilarMovies(id, parameters = null){
   return movieAPI.get(`/${id}/similar`, {
     params: {
-      language: import.meta.env.VITE_APP_API_LANGUAGE
+      ...parameters
+    }
+  })
+}
 
+// 리뷰 받기
+export function getMovieRevoiews(id, parameters = null){
+  return movieAPI.get(`/${id}/reviews`, {
+    params: {
+      language: 'en-US',
+      ...parameters
     }
   })
 }

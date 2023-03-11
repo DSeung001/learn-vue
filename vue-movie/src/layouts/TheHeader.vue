@@ -22,13 +22,29 @@
           </ul>
         </div>
 
-        간략화 <input type="checkbox" checked data-toggle="toggle" data-size="sm">
+        간략화 <input
+          v-model="newSimply"
+          type="checkbox"
+                   checked data-toggle="toggle"
+                   data-size="sm"
+                   @input="updateSimply()"
+      >
       </nav>
     </div>
   </header>
 </template>
 
 <script setup>
+import {useSimplificationStore} from "@/stores/simplification";
+import {ref} from "vue";
+
+const simplificationStore = useSimplificationStore();
+const newSimply = ref(false);
+
+
+const updateSimply = () => {
+  simplificationStore.setSimply(!newSimply.value);
+}
 </script>
 
 <style lang="scss" scoped></style>

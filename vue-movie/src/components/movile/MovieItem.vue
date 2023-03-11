@@ -1,6 +1,10 @@
 <template>
   <div class="card p-1">
-    <img class="card-img-top" :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`" alt="Card image cap">
+
+    <img class="card-img-top" v-if="!(simplificationStore.getSimply)"
+         :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`"
+         alt="Card image cap"
+    >
     <div class="card-body">
       <h5 class="card-title text-truncate">{{ item.title }}</h5>
       <p class="card-text text-truncate" style="max-height: 30px; min-height: 30px">
@@ -28,6 +32,11 @@
 </template>
 
 <script setup>
+
+import {useSimplificationStore} from "@/stores/simplification";
+
+const simplificationStore = useSimplificationStore();
+
 defineProps({
   item: {
     type: Object,

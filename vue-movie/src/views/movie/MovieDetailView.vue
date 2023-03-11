@@ -1,24 +1,53 @@
 <template>
-  <h2>
-    {{ content.title }}({{ content.original_title }})
-  </h2>
-  <h5 style="margin-top: 12px; margin-bottom: 12px">
-    {{ content.tagline }}
-  </h5>
-  <span class="p-1" v-for="item in content.genres"
-        style="border: 1px solid #444; border-radius: 10%; margin-right: 10px">
+
+  <template v-if="content">
+    <h2>
+      {{ content.title }}({{ content.original_title }})
+    </h2>
+    <h5 style="margin-top: 12px; margin-bottom: 12px">
+      {{ content.tagline }}
+    </h5>
+    <span class="p-1" v-for="item in content.genres"
+          style="border: 1px solid #444; border-radius: 10%; margin-right: 10px">
       {{ item.name }}
   </span>
-  <hr style="margin-bottom:50px; margin-top: 30px"/>
-  <div style="width:800px;margin:0 auto">
-    <p class="pd-3" style="margin-bottom: 60px; text-align: center">
-      {{ content.overview }}
-    </p>
-    <img class="card-img-top" style="width: 500px; margin:0 auto 20px; display: block"
-         :src="`https://image.tmdb.org/t/p/w500/${content.poster_path}`" alt="Card image cap">
+    <hr style="margin-bottom:50px; margin-top: 30px"/>
+    <div style="width:800px;margin:0 auto">
+      <p class="pd-3" style="margin-bottom: 60px; text-align: center">
+        {{ content.overview }}
+      </p>
+      <img class="card-img-top" style="width: 500px; margin:0 auto 20px; display: block"
+           :src="`https://image.tmdb.org/t/p/w500/${content.poster_path}`" alt="Card image cap">
+    </div>
+  </template>
+
+  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
+
+  <div v-if="reviews">
+    <h5>
+      리뷰
+    </h5>
+    <div class="card" v-for="item in reviews.results.slice(0,5)">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ item.author }}
+        </h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+          {{ item.created_at.substring(0, 10) }}
+        </h6>
+        <p class="card-text">
+          {{ item.content }}
+        </p>
+      </div>
+    </div>
   </div>
 
+  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
+
   <div class="row g-4" v-if="content.videos">
+    <h5>
+      예고편
+    </h5>
     <div v-for="video in content.videos.results" class="col-12 col-md-9 col-lg-6" style="min-height: 450px">
       <p style="height: 20px">
         {{ video.name }}
@@ -32,10 +61,10 @@
 
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
 
-  <h5>
-    이 영화가 좋다면?
-  </h5>
   <div v-if="similars">
+    <h5>
+      이 영화가 좋다면?
+    </h5>
     <ul>
       <li v-for="item in similars.results">
         <a @click.prevent="goMovieDetail(item.id)" style="cursor:pointer" href="#">
@@ -50,7 +79,7 @@
 <script setup>
 import {ref, watch, watchEffect} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {getMovieDetail, getSimilarMovies} from "@/api/movie";
+import {getMovieDetail, getMovieRevoiews, getSimilarMovies} from "@/api/movie";
 
 const route = useRoute();
 const content = ref({
@@ -61,21 +90,29 @@ const content = ref({
 })
 
 const similars = ref(null)
+const reviews = ref(null)
 
 const setContent = async () => {
   const {data} = await getMovieDetail(route.params.id)
   content.value = data;
-  console.log((data))
+  // console.log((data))
 }
 
 const getSimilar = async () => {
   const {data} = await getSimilarMovies(route.params.id)
   similars.value = data;
-  console.log((data))
+  // console.log((data))
+}
+
+const getReview = async () => {
+  const {data} = await getMovieRevoiews(route.params.id)
+  reviews.value = data
+  console.log(data);
 }
 
 watchEffect(getSimilar)
 watchEffect(setContent);
+watchEffect(getReview);
 
 watch(content, () => {
   window.scrollTo(0, 0);
