@@ -7,6 +7,7 @@
     >
 
       <input
+        @click="$emit('setRadio', key)"
           class="form-check-input" type="radio" :name="name" :id="`${name}-${key}`" v-bind:checked="selected==key">
       <label class="form-check-label" :for="`${name}-${key}`" style="margin-right: 15px">
         {{ value }}
@@ -34,6 +35,7 @@ defineProps({
 });
 
 
+defineEmits(['setRadio']);
 </script>
 
 <style scoped>
