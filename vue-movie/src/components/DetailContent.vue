@@ -3,6 +3,7 @@
     <h2>
       {{ content.title === undefined ? content.name : content.title}}
       {{ content.original_name === undefined ? "" : "("+content.original_name+")" }}
+      {{ content.original_title === undefined ? "" : "("+content.original_title+")" }}
     </h2>
     <h5 style="margin-top: 12px; margin-bottom: 12px">
       {{ content.tagline }}

@@ -42,6 +42,16 @@ export function getTvReviews(id, parameters = null){
   })
 }
 
+// tv에 대한 추천 작품
+export function getRecommendationTv(id, parameters = null){
+  return tvAPI.get(`/${id}/recommendations`, {
+    params: {
+      ...parameters
+    }
+  })
+}
+
+
 // 영화 상세보기
 export function getMovieDetail(id) {
   return movieAPI.get(`/${id}`, {
@@ -59,6 +69,15 @@ export function getSimilarMovies(id, parameters = null){
     }
   })
 }
+// 영화에 대한 추천 작품
+export function getRecommendationMovies(id, parameters = null){
+  return movieAPI.get(`/${id}/recommendations`, {
+    params: {
+      ...parameters
+    }
+  })
+}
+
 
 // 리뷰 받기
 export function getMovieReviews(id, parameters = null){
