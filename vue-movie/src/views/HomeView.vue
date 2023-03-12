@@ -21,19 +21,7 @@
 
   </RadioList>
 
-  <div v-for="(item, index) in trendMovies"
-       :key="index"
-       class="card bg-dark text-white col-3"
-       style="display: inline-block;cursor: pointer;"
-       @click="goDetail(item.id, item.media_type)"
-  >
-    <img class="card-img" :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${item.poster_path}`" alt="Card image">
-    <div class="card-img-overlay">
-      <p class="card-title p-1 " style="background-color: rgba(68,68,68,0.9)">
-        {{ item.title !== undefined ? item.title : item.name }}
-      </p>
-    </div>
-  </div>
+  <SmallList :list="trendMovies" @goDetail="goDetail" col-class="col-3"/>
 </template>
 
 <script setup>
@@ -41,6 +29,7 @@ import {ref, watchEffect} from "vue";
 import {getDiscoverList, getTrendingList} from "@/api/movie";
 import RadioList from "@/components/RadioList.vue";
 import {useRouter} from "vue-router";
+import SmallList from "@/components/SmallList.vue";
 
 const router = useRouter();
 

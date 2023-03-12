@@ -6,7 +6,7 @@
     <div v-for="video in videos"
          :key="video.id"
          class="col-12 col-md-9 col-lg-6" style="min-height: 450px">
-      <p style="height: 20px">
+      <p>
         {{ video.name }}
       </p>
       <iframe

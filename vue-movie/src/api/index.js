@@ -23,3 +23,4 @@ export const tvAPI = create('tv');
 export const searchAPI = create('search');
 export const gerenAPI = create('genre');
 export const trendingAPI = create('trending')
+export const keywordAPI = create('keyword')

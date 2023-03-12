@@ -1,4 +1,4 @@
-import {discoverAPI, gerenAPI, movieAPI, searchAPI, trendingAPI, tvAPI} from "@/api/index";
+import {discoverAPI, gerenAPI, keywordAPI, movieAPI, searchAPI, trendingAPI, tvAPI} from "@/api/index";
 
 export function getSearchList(parameters){
   return searchAPI.get("movie",{
@@ -49,6 +49,11 @@ export function getRecommendationTv(id, parameters = null){
       ...parameters
     }
   })
+}
+
+// 영화별 키워드 리스트
+export function getTvKeywords(id) {
+  return tvAPI.get(`${id}/keywords`);
 }
 
 
@@ -115,6 +120,10 @@ export function getDiscoverList(parameters = null){
       ...parameters
     }
   });
+}
+
+export function getKeywordMovies(id){
+  return keywordAPI.get(`${id}/movies`);
 }
 
 // 트렌드
