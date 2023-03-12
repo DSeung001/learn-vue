@@ -6,10 +6,10 @@
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailVideos :videos="content.videos.results"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
-  <DetailLinkList :similar="similar" :media="media">
+  <DetailLinkList :similar="similar" :media="media" @goDetail="goDetail">
     <h5>유사한 영화</h5>
   </DetailLinkList>
-  <DetailLinkList :similar="recommendation" :media="media">
+  <DetailLinkList :similar="recommendation" :media="media" @goDetail="goDetail">
     <h5>추천 영화</h5>
   </DetailLinkList>
 
@@ -17,7 +17,7 @@
 
 <script setup>
 import {ref, watch, watchEffect} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {getMovieDetail, getMovieReviews, getRecommendationMovies, getSimilarMovies} from "@/api/movie";
 import DetailContent from "@/components/DetailContent.vue";
 import DetailReviews from "@/components/DetailReviews.vue";
@@ -71,6 +71,17 @@ watchEffect(getRecommendation);
 watch(content, () => {
   window.scrollTo(0, 0);
 });
+
+const router = useRouter();
+
+const goDetail = id => {
+  router.push({
+    name: "MovieDetail",
+    params: {
+      id
+    }
+  })
+}
 
 </script>
 
