@@ -19,6 +19,7 @@ function create(detailURL = '') {
 export const baseAPI = create();
 export const discoverAPI = create('discover');
 export const movieAPI = create('movie');
+export const tvAPI = create('tv');
 export const searchAPI = create('search');
 export const gerenAPI = create('genre');
 export const trendingAPI = create('trending')

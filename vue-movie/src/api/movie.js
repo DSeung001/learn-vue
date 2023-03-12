@@ -1,4 +1,4 @@
-import {discoverAPI, gerenAPI, movieAPI, searchAPI, trendingAPI} from "@/api/index";
+import {discoverAPI, gerenAPI, movieAPI, searchAPI, trendingAPI, tvAPI} from "@/api/index";
 
 export function getSearchList(parameters){
   return searchAPI.get("movie",{
@@ -16,8 +16,33 @@ export function getMovieUpcoming(page) {
     }
   })
 }
+// 티비 상세보기
+export function getTvDetail(id){
+  return tvAPI.get(`/${id}`, {
+    params: {
+      append_to_response: "videos"
+    }
+  })
+}
+// 비슷한 작품
+export function getSimilarTv(id, parameters = null){
+  return tvAPI.get(`/${id}/similar`, {
+    params: {
+      ...parameters
+    }
+  })
+}
 
-// 상세보기
+export function getTvReviews(id, parameters = null){
+  return tvAPI.get(`/${id}/reviews`, {
+    params: {
+      language: 'en-US',
+      ...parameters
+    }
+  })
+}
+
+// 영화 상세보기
 export function getMovieDetail(id) {
   return movieAPI.get(`/${id}`, {
     params: {
@@ -26,7 +51,7 @@ export function getMovieDetail(id) {
   })
 }
 
-// 비슷한 작품
+// 영화의 비슷한 작품
 export function getSimilarMovies(id, parameters = null){
   return movieAPI.get(`/${id}/similar`, {
     params: {
@@ -36,7 +61,7 @@ export function getSimilarMovies(id, parameters = null){
 }
 
 // 리뷰 받기
-export function getMovieRevoiews(id, parameters = null){
+export function getMovieReviews(id, parameters = null){
   return movieAPI.get(`/${id}/reviews`, {
     params: {
       language: 'en-US',

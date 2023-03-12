@@ -25,7 +25,7 @@
        :key="index"
        class="card bg-dark text-white col-3"
        style="display: inline-block;cursor: pointer;"
-       @click="goMovieDetail(item.id)"
+       @click="goDetail(item.id, item.media_type)"
   >
     <img class="card-img" :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${item.poster_path}`" alt="Card image">
     <div class="card-img-overlay">
@@ -67,7 +67,7 @@ const setPopularMovies = async () => {
       sort_by: "popularity.desc"
     });
     popularMovies.value = data.results;
-    console.log(data);
+    // console.log(data);
   } catch (error) {
     console.log(error);
   }
@@ -77,19 +77,29 @@ const setTrendMovies = async () => {
   try {
     const {data} = await getTrendingList(currentMedia.value, currentTime.value);
     trendMovies.value = data.results;
-    console.log(data);
+    // console.log(data);
   } catch (error) {
     console.log(error);
   }
 }
 
-const goMovieDetail = id => {
-  router.push({
-    name: "MovieDetail",
-    params: {
-      id
-    }
-  })
+const goDetail = (id, type) => {
+  if (type == "tv") {
+    router.push({
+      name: "TvDetail",
+      params: {
+        id
+      }
+    })
+  } else if (type == "movie") {
+    router.push({
+      name: "MovieDetail",
+      params: {
+        id
+      }
+    })
+  }
+
 }
 
 watchEffect(setPopularMovies);

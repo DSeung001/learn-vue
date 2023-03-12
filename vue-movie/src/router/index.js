@@ -4,6 +4,7 @@ import HomeView from "@/views/HomeView.vue";
 import MovieListView from "@/views/movie/MovieListView.vue";
 import MovieDetailView from "@/views/movie/MovieDetailView.vue";
 import RecommendListView from "@/views/movie/RecommendListView.vue";
+import TvDetailView from "@/views/tv/TvDetailView.vue";
 
 const routes = [
     {
@@ -25,6 +26,11 @@ const routes = [
         path: '/movie/:id',
         name: 'MovieDetail',
         component: MovieDetailView
+    },
+    {
+        path: '/tv/:id',
+        name: 'TvDetail',
+        component: TvDetailView
     },
     {
         path: '/recommend',

@@ -1,23 +1,22 @@
 <template>
-
   <DetailContent :content="content"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailReviews :reviews="reviews"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailVideos :videos="content.videos.results"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
-  <DetailSimilars :similar="similar" media="movie"/>
+  <DetailSimilars :similar="similar" media="tv"/>
 
 </template>
 
 <script setup>
 import {ref, watch, watchEffect} from "vue";
 import {useRoute} from "vue-router";
-import {getMovieDetail, getMovieReviews, getSimilarMovies} from "@/api/movie";
+import {getSimilarTv, getTvDetail, getTvReviews} from "@/api/movie";
 import DetailContent from "@/components/DetailContent.vue";
-import DetailReviews from "@/components/DetailReviews.vue";
-import DetailVideos from "@/components/DetailVideos.vue";
 import DetailSimilars from "@/components/DetailSimilars.vue";
+import DetailVideos from "@/components/DetailVideos.vue";
+import DetailReviews from "@/components/DetailReviews.vue";
 
 const route = useRoute();
 const content = ref({
@@ -27,25 +26,24 @@ const content = ref({
   genres: []
 })
 
-const similar = ref()
+const similar = ref(null)
 const reviews = ref(null)
 
 const setContent = async () => {
-  const {data} = await getMovieDetail(route.params.id)
-  content.value = data;
-  // console.log((data))
+  const {data} = await getTvDetail(route.params.id)
+  content.value = data
 }
 
 const getSimilar = async () => {
-  const {data} = await getSimilarMovies(route.params.id)
+  const {data} = await getSimilarTv(route.params.id)
   similar.value = data.results;
-  // console.log((data))
+  console.log((data.results))
 }
 
 const getReview = async () => {
-  const {data} = await getMovieReviews(route.params.id)
+  const {data} = await getTvReviews(route.params.id)
   reviews.value = data
-  // console.log(data);
+  console.log(data);
 }
 
 watchEffect(getSimilar)
