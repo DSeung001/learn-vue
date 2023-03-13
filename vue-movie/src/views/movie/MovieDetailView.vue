@@ -62,7 +62,7 @@ const reviews = ref(null)
 const similar = ref()
 const recommendation = ref();
 const keywords = ref();
-const keywordMovies = ref(null);
+const keywordMovies = ref([]);
 const keywordPopup = ref(false);
 
 const setContent = async () => {

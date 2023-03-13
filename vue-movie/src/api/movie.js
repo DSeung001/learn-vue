@@ -114,7 +114,7 @@ export function getGenreList() {
 }
 
 // 영화 리스트 가져오기
-export function getDiscoverList(parameters = null){
+export function getDiscoverMovies(parameters = null){
   return discoverAPI.get("movie",{
     params : {
       ...parameters
@@ -122,6 +122,16 @@ export function getDiscoverList(parameters = null){
   });
 }
 
+// Tv discover
+export function getDiscoverTv(parameters = null){
+  return discoverAPI.get('tv', {
+    params : {
+      ...parameters
+    }
+  });
+}
+
+// 키워드에 맞는 영화들 가져오기
 export function getKeywordMovies(id){
   return keywordAPI.get(`${id}/movies`);
 }

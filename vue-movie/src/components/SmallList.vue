@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   list: {
     type: Array,
     required: true,
@@ -26,9 +26,6 @@ const props = defineProps({
     required : false
   }
 })
-
-console.log(props.colClass);
-
 defineEmits(['goDetail']);
 </script>
 

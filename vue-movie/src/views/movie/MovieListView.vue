@@ -22,7 +22,7 @@
 
 <script setup>
 import {computed, ref, watch, watchEffect} from "vue";
-import {getDiscoverList} from "@/api/movie";
+import {getDiscoverMovies} from "@/api/movie";
 import {useGenreStore} from "@/stores/genre";
 import MoviePagination from "@/components/movile/MoviePagination.vue";
 import {useRouter} from "vue-router";
@@ -46,7 +46,7 @@ const setList = async () => {
   }
 
   try {
-    const { data: discoverData } = await getDiscoverList({
+    const { data: discoverData } = await getDiscoverMovies({
       page: currentPage.value
     });
 
