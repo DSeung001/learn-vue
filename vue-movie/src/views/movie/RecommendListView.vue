@@ -38,7 +38,7 @@
   </button>
 
   <div v-if="contentList.length > 0">
-    <SmallList :list="contentList" @goDetail="goDetail" col-class="col-2" />
+    <SmallList :list="contentList" @goDetail="goDetail" col-class="col-3" />
   </div>
 
 </template>
@@ -137,7 +137,9 @@ watch(searchKeyword, async () => {
 });
 
 const router = useRouter();
-const goDetail = (id, type) => {
+const goDetail = (id) => {
+  let type = currentMedia.value;
+  console.log(type);
   if (type == "tv") {
     router.push({
       name: "TvDetail",
