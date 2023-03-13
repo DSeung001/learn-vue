@@ -36,6 +36,9 @@
   <button @click="setList">
     검색
   </button>
+  <button @click="pageReset">
+    초기화
+  </button>
 
   <div v-if="contentList.length > 0">
     <SmallList :list="contentList" @goDetail="goDetail" col-class="col-3" />
@@ -81,7 +84,7 @@ const setupStore = async () => {
     await genreStore.fetchTvGenres();
   }
 };
-
+setupStore();
 const setSearchKeyword = async (search) => {
   searchKeyword.value = search;
 };
@@ -93,29 +96,24 @@ const addKeywordList = (id, name) => {
 const setList = async () => {
   let keywords = currentKeywords.value.map(item => item.id);
 
-  console.log(currentGenres.value.toString());
-  console.log(keywords.toString());
-
   if (currentMedia.value === "tv") {
     const { data } = await getDiscoverTv({
       with_genres: currentGenres.value.toString(),
       with_keywords: keywords.toString()
     });
-    console.log(data.results);
+    // console.log(data.results);
     contentList.value = data.results;
   } else if (currentMedia.value === "movie") {
     const { data } = await getDiscoverMovies({
       with_genres: currentGenres.value.toString(),
       with_keywords: keywords.toString()
     });
-    console.log(data.results);
+    // console.log(data.results);
     contentList.value = data.results;
   }
 };
-
-setupStore();
-
-watch(currentMedia, () => {
+const pageReset = () =>{
+  console.log("실행");
   if (currentMedia.value === "movie") {
     genreList.value = genreStore.movieGenres;
   } else if (currentMedia.value === "tv") {
@@ -125,6 +123,11 @@ watch(currentMedia, () => {
   currentGenres.value = [];
   currentKeywords.value = [];
   searchKeyword.value = "";
+  contentList.value = [];
+}
+
+watch(currentMedia, () => {
+  pageReset();
 });
 
 watch(searchKeyword, async () => {
