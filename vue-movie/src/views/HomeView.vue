@@ -7,16 +7,13 @@
   <h5>미디어 선택</h5>
   <RadioList
     @setRadio="value => (currentMedia = value)"
-    name="media" :list="mediaList" :selected="currentMedia">
-
-  </RadioList>
+    name="media" :list="mediaList" :selected="currentMedia" />
 
   <h5>시간대 선택</h5>
   <RadioList
     @setRadio="value => (currentTime = value)"
     name="time_window"
-    :list="timeList" :selected="currentTime">
-  </RadioList>
+    :list="timeList" :selected="currentTime" />
 
   <SmallList :list="trendMovies" @goDetail="goDetail" col-class="col-3" />
   <h3 style="margin-top:20px;margin-bottom: 20px">

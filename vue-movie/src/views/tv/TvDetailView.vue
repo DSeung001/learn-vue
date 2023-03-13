@@ -69,7 +69,7 @@ const keywordPopup = ref(false);
 const setContent = async () => {
   const {data} = await getTvDetail(route.params.id)
   content.value = data
-  console.log(data);
+  // console.log(data);
 }
 
 const setSimilar = async () => {

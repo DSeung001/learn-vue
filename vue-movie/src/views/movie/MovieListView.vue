@@ -41,8 +41,8 @@ const lastPage = computed(() => currentPage.value + 2 <= totalPages.value ? curr
 
 const setList = async () => {
 
-  if (genreStore.genres.size === 0) {
-    genreStore.fetchGenres();
+  if (genreStore.movieGenres.size === 0) {
+    await genreStore.fetchMovieGenres();
   }
 
   try {
@@ -57,7 +57,7 @@ const setList = async () => {
       discoverList[index].genre_text = "";
 
       item.genre_ids.forEach((id) => {
-        let genre = genreStore.genres.get(id);
+        let genre = genreStore.movieGenres.get(id);
         discoverList[index].genre_text = discoverList[index].genre_text +
             (genre === undefined ? "" : genre) + " ";
       });

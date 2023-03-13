@@ -2,7 +2,7 @@
   <div v-if="list.size > 0" style="margin-bottom: 10px">
     <div
         v-for="[key, value] in list"
-        :value="key"
+        :key="key"
         class="form-check" style="display: inline-block"
     >
 
