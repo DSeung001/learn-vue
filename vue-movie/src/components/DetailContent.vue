@@ -1,9 +1,9 @@
 <template>
   <div v-if="content">
     <h2>
-      {{ content.title === undefined ? content.name : content.title}}
-      {{ content.original_name === undefined ? "" : "("+content.original_name+")" }}
-      {{ content.original_title === undefined ? "" : "("+content.original_title+")" }}
+      {{ content.title === undefined ? content.name : content.title }}
+      {{ content.original_name === undefined ? "" : "(" + content.original_name + ")" }}
+      {{ content.original_title === undefined ? "" : "(" + content.original_title + ")" }}
     </h2>
     <h5 style="margin-top: 12px; margin-bottom: 12px">
       {{ content.tagline }}
@@ -14,7 +14,20 @@
           style="border: 1px solid #444; border-radius: 10%; margin-right: 10px">
       {{ item.name }}
   </span>
-    <hr style="margin-bottom:50px; margin-top: 30px"/>
+    <p class="mt-3" v-if="content.release_date">
+      {{ content.release_date }}년도 작품
+    </p>
+
+    <p class="mt-3">
+      <span v-if="content.first_air_date">
+      {{ content.first_air_date }}년부터
+    </span>
+      <span class="mt-3" v-if="content.last_air_date">
+      {{ content.last_air_date }}년까지
+    </span>
+    </p>
+
+    <hr style="margin-bottom:50px; margin-top: 30px" />
     <div style="width:800px;margin:0 auto">
       <p class="pd-3" style="margin-bottom: 60px; text-align: center">
         {{ content.overview }}
@@ -30,8 +43,8 @@
 defineProps({
   content: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
 </script>
 

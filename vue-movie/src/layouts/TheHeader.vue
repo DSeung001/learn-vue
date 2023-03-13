@@ -27,15 +27,15 @@
               </RouterLink>
             </li>
 
-<!--            <li>-->
-<!--              <RouterLink-->
-<!--                  to="/recommend"-->
-<!--                  active-class="active"-->
-<!--                  class="nav-link"-->
-<!--              >-->
-<!--                추천작-->
-<!--              </RouterLink>-->
-<!--            </li>-->
+            <li>
+              <RouterLink
+                  to="/recommend"
+                  active-class="active"
+                  class="nav-link"
+              >
+                추천작
+              </RouterLink>
+            </li>
 
           </ul>
         </div>

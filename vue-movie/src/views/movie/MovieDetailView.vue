@@ -1,5 +1,5 @@
 <template>
-
+  <h5>영화</h5>
   <DetailContent :content="content"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailReviews :reviews="reviews"/>

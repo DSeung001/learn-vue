@@ -9,7 +9,7 @@
 
     </MovieGrid>
 
-    <MoviePagination
+    <ListPagination
         :current-page="currentPage"
         @setPage="page => (
        currentPage = page
@@ -24,7 +24,7 @@
 import {computed, ref, watch, watchEffect} from "vue";
 import {getDiscoverMovies} from "@/api/movie";
 import {useGenreStore} from "@/stores/genre";
-import MoviePagination from "@/components/movile/MoviePagination.vue";
+import ListPagination from "@/components/ListPagination.vue";
 import {useRouter} from "vue-router";
 import MovieGrid from "@/components/movile/MovieGrid.vue";
 import MovieItem from "@/components/movile/MovieItem.vue";

@@ -1,4 +1,5 @@
 <template>
+  <h5>TV 프로그램</h5>
   <DetailContent :content="content"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailReviews :reviews="reviews"/>
@@ -68,6 +69,7 @@ const keywordPopup = ref(false);
 const setContent = async () => {
   const {data} = await getTvDetail(route.params.id)
   content.value = data
+  console.log(data);
 }
 
 const setSimilar = async () => {
