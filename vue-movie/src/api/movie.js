@@ -1,12 +1,4 @@
-import { discoverAPI, gerenAPI, keywordAPI, movieAPI, searchAPI, trendingAPI, tvAPI } from "@/api/index";
-
-export function getSearchList(parameters) {
-  return searchAPI.get("movie", {
-    params: {
-      ...parameters
-    }
-  });
-}
+import { discoverAPI, gerenAPI, keywordAPI, movieAPI, searchAPI, trendingAPI } from "@/api/index";
 
 export function getSearchKeyword(parameters = null) {
   return searchAPI.get("keyword", {
@@ -15,57 +7,6 @@ export function getSearchKeyword(parameters = null) {
     }
   });
 }
-
-// 개봉작
-  export function getMovieUpcoming(page) {
-    return movieAPI.get("upcoming", {
-      params: {
-        page: page
-      }
-    });
-  }
-
-// 티비 상세보기
-  export function getTvDetail(id) {
-    return tvAPI.get(`/${id}`, {
-      params: {
-        append_to_response: "videos"
-      }
-    });
-  }
-
-// 비슷한 작품
-  export function getSimilarTv(id, parameters = null) {
-    return tvAPI.get(`/${id}/similar`, {
-      params: {
-        ...parameters
-      }
-    });
-  }
-
-  export function getTvReviews(id, parameters = null) {
-    return tvAPI.get(`/${id}/reviews`, {
-      params: {
-        language: "en-US",
-        ...parameters
-      }
-    });
-  }
-
-// tv에 대한 추천 작품
-  export function getRecommendationTv(id, parameters = null) {
-    return tvAPI.get(`/${id}/recommendations`, {
-      params: {
-        ...parameters
-      }
-    });
-  }
-
-// 영화별 키워드 리스트
-  export function getTvKeywords(id) {
-    return tvAPI.get(`${id}/keywords`);
-  }
-
 
 // 영화 상세보기
   export function getMovieDetail(id) {
@@ -105,22 +46,9 @@ export function getSearchKeyword(parameters = null) {
     });
   }
 
-// 인기작
-  export function getMovieTopRated(page) {
-    return movieAPI.get("top_rated", {
-      params: {
-        page: page
-      }
-    });
-  }
-
 // 영화별 키워드 리스트
   export function getMovieKeywords(id) {
     return movieAPI.get(`${id}/keywords`);
-  }
-
-  export function getKeywordList() {
-    return keywordAPI.get("list");
   }
 
 // 장르 리스트 가져오기

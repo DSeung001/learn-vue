@@ -1,18 +1,18 @@
 <template>
   <h5>TV 프로그램</h5>
-  <DetailContent :content="content"/>
-  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
-  <DetailReviews :reviews="reviews"/>
-  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
-  <DetailVideos :videos="content.videos.results"/>
-  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
+  <DetailContent :content="content" />
+  <hr style="margin-top: 30px; margin-bottom: 30px;" />
+  <DetailReviews :reviews="reviews" />
+  <hr style="margin-top: 30px; margin-bottom: 30px;" />
+  <DetailVideos :videos="content.videos.results" />
+  <hr style="margin-top: 30px; margin-bottom: 30px;" />
   <DetailLinkList :list="similar" :media="media" @goDetail="goDetail">
     <h5>유사한 TV 프로그램</h5>
   </DetailLinkList>
   <DetailLinkList :list="recommendation" :media="media" @goDetail="goDetail">
     <h5>추천 TV 프로그램</h5>
   </DetailLinkList>
-  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
+  <hr style="margin-top: 30px; margin-bottom: 30px;" />
   <DetailLinkList :list="keywords" :media="media" @goDetail="setKeywordTv">
     <h5>키워드</h5>
   </DetailLinkList>
@@ -25,28 +25,24 @@
       x
     </button>
     <div v-if="keywordTv">
-      <SmallList :list="keywordTv" @goDetail="goDetail" col-class="col-2"/>
+      <SmallList :list="keywordTv" @goDetail="goDetail" col-class="col-2" />
     </div>
   </div>
 
 </template>
 
 <script setup>
-import {ref, watch, watchEffect} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import { ref, watch, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import {
-  getDiscoverTv,
-  getRecommendationTv,
-  getSimilarTv,
-  getTvDetail,
-  getTvKeywords,
-  getTvReviews
+  getDiscoverTv
 } from "@/api/movie";
 import DetailContent from "@/components/DetailContent.vue";
 import DetailLinkList from "@/components/DetailLinkList.vue";
 import DetailVideos from "@/components/DetailVideos.vue";
 import DetailReviews from "@/components/DetailReviews.vue";
 import SmallList from "@/components/SmallList.vue";
+import { getRecommendationTv, getSimilarTv, getTvDetail, getTvKeywords, getTvReviews } from "@/api/tv";
 
 const route = useRoute();
 const content = ref({
@@ -54,12 +50,12 @@ const content = ref({
     results: []
   },
   genres: []
-})
+});
 
-const media = 'tv';
+const media = "tv";
 
-const reviews = ref(null)
-const similar = ref(null)
+const reviews = ref(null);
+const similar = ref(null);
 const recommendation = ref();
 const keywords = ref();
 const keywordTv = ref([]);
@@ -67,35 +63,35 @@ const keywordPopup = ref(false);
 
 
 const setContent = async () => {
-  const {data} = await getTvDetail(route.params.id)
-  content.value = data
+  const { data } = await getTvDetail(route.params.id);
+  content.value = data;
   // console.log(data);
-}
+};
 
 const setSimilar = async () => {
-  const {data} = await getSimilarTv(route.params.id)
+  const { data } = await getSimilarTv(route.params.id);
   similar.value = data.results;
   // console.log((data.results))
-}
+};
 
 const setReview = async () => {
-  const {data} = await getTvReviews(route.params.id)
-  reviews.value = data
+  const { data } = await getTvReviews(route.params.id);
+  reviews.value = data;
   // console.log(data);
-}
+};
 
 const setRecommendation = async () => {
-  const {data} = await getRecommendationTv(route.params.id)
+  const { data } = await getRecommendationTv(route.params.id);
   recommendation.value = data.results;
   // console.log((data))
-}
+};
 
 const setTvKeywords = async () => {
-  const {data} = await getTvKeywords(route.params.id);
+  const { data } = await getTvKeywords(route.params.id);
   keywords.value = data.results;
-}
+};
 
-watchEffect(setSimilar)
+watchEffect(setSimilar);
 watchEffect(setContent);
 watchEffect(setReview);
 watchEffect(setRecommendation);
@@ -114,21 +110,21 @@ const goDetail = id => {
     params: {
       id
     }
-  })
-}
+  });
+};
 
-const setKeywordTv= async id => {
-  const {data} = await getDiscoverTv({
-    with_keywords : id
+const setKeywordTv = async id => {
+  const { data } = await getDiscoverTv({
+    with_keywords: id
   });
   keywordTv.value = data.results;
   keywordPopup.value = true;
   console.log(data.results);
-}
+};
 
 const keywordPopupClose = () => {
   keywordPopup.value = false;
-}
+};
 
 </script>
 

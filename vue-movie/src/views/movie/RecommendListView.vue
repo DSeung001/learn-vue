@@ -74,9 +74,6 @@ const contentList = ref([]);
 
 
 const setupStore = async () => {
-  /*console.log(genreStore.movieGenres);
-  console.log(genreStore.tvGenres);*/
-
   if (genreStore.movieGenres.size === 0) {
     await genreStore.fetchMovieGenres();
   }
@@ -84,7 +81,9 @@ const setupStore = async () => {
     await genreStore.fetchTvGenres();
   }
 };
+
 setupStore();
+
 const setSearchKeyword = async (search) => {
   searchKeyword.value = search;
 };
@@ -112,7 +111,7 @@ const setList = async () => {
     contentList.value = data.results;
   }
 };
-const pageReset = () =>{
+const pageReset = () => {
   console.log("실행");
   if (currentMedia.value === "movie") {
     genreList.value = genreStore.movieGenres;
@@ -124,7 +123,7 @@ const pageReset = () =>{
   currentKeywords.value = [];
   searchKeyword.value = "";
   contentList.value = [];
-}
+};
 
 watch(currentMedia, () => {
   pageReset();
