@@ -1,5 +1,5 @@
 // 티비 상세보기
-import { tvAPI } from "@/api/index";
+import { tvAPI } from "@/api/tmdb/index";
 
 export function getTvDetail(id) {
   return tvAPI.get(`/${id}`, {

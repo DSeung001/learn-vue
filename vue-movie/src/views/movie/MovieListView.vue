@@ -22,12 +22,12 @@
 
 <script setup>
 import {computed, ref, watch, watchEffect} from "vue";
-import {getDiscoverMovies} from "@/api/movie";
+import {getDiscoverMovies} from "@/api/tmdb/movie";
 import {useGenreStore} from "@/stores/genre";
 import ListPagination from "@/components/ListPagination.vue";
 import {useRouter} from "vue-router";
-import MovieGrid from "@/components/movile/MovieGrid.vue";
-import MovieItem from "@/components/movile/MovieItem.vue";
+import MovieGrid from "@/components/movie/MovieGrid.vue";
+import MovieItem from "@/components/movie/MovieItem.vue";
 
 const router = useRouter();
 

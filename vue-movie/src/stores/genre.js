@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getGenreList } from "@/api/movie";
+import { getGenreList } from "@/api/tmdb/movie";
 
 export const useGenreStore = defineStore("genre", {
   state: () => {

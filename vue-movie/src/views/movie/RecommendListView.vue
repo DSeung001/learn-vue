@@ -51,7 +51,7 @@ import { ref, watch } from "vue";
 import RadioList from "@/components/RadioList.vue";
 import CheckboxList from "@/components/CheckboxList.vue";
 import { useGenreStore } from "@/stores/genre";
-import { getDiscoverMovies, getDiscoverTv, getSearchKeyword } from "@/api/movie";
+import { getDiscoverMovies, getDiscoverTv, getSearchKeyword } from "@/api/tmdb/movie";
 import { useRouter } from "vue-router";
 import SmallList from "@/components/SmallList.vue";
 

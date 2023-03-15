@@ -2,7 +2,14 @@
   <h5>영화</h5>
   <DetailContent :content="content"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
+
+  <CreateForm
+      @save="save"
+      v-model:title="form.title"
+      v-model:content="form.content"
+  />
   <DetailReviews :reviews="reviews"/>
+
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailVideos :videos="content.videos.results"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
@@ -41,12 +48,14 @@ import {
   getMovieReviews,
   getRecommendationMovies,
   getSimilarMovies
-} from "@/api/movie";
+} from "@/api/tmdb/movie";
 import DetailContent from "@/components/DetailContent.vue";
 import DetailReviews from "@/components/DetailReviews.vue";
 import DetailVideos from "@/components/DetailVideos.vue";
 import DetailLinkList from "@/components/DetailLinkList.vue";
 import SmallList from "@/components/SmallList.vue";
+import CreateForm from "@/components/CreateForm.vue";
+import {createReview} from "@/api/local/reviews";
 
 const route = useRoute();
 const content = ref({
@@ -127,6 +136,19 @@ const setKeywordMovies = async id => {
 
 const keywordPopupClose = () => {
   keywordPopup.value = false;
+}
+
+const form = ref({
+  title: null,
+  content: null,
+});
+
+const save = async () => {
+  const {data, status} = await createReview(form.value);
+  if(status === 201){
+    alert("성공적으로 추가했습니다.")
+  }
+  console.log(data);
 }
 
 </script>

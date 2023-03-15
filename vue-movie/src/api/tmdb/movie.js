@@ -1,4 +1,4 @@
-import { discoverAPI, gerenAPI, keywordAPI, movieAPI, searchAPI, trendingAPI } from "@/api/index";
+import { discoverAPI, gerenAPI, keywordAPI, movieAPI, searchAPI, trendingAPI } from "@/api/tmdb/index";
 
 export function getSearchKeyword(parameters = null) {
   return searchAPI.get("keyword", {

@@ -36,13 +36,13 @@ import { ref, watch, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import {
   getDiscoverTv
-} from "@/api/movie";
+} from "@/api/tmdb/movie";
 import DetailContent from "@/components/DetailContent.vue";
 import DetailLinkList from "@/components/DetailLinkList.vue";
 import DetailVideos from "@/components/DetailVideos.vue";
 import DetailReviews from "@/components/DetailReviews.vue";
 import SmallList from "@/components/SmallList.vue";
-import { getRecommendationTv, getSimilarTv, getTvDetail, getTvKeywords, getTvReviews } from "@/api/tv";
+import { getRecommendationTv, getSimilarTv, getTvDetail, getTvKeywords, getTvReviews } from "@/api/tmdb/tv";
 
 const route = useRoute();
 const content = ref({

@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref, watchEffect } from "vue";
-import { getDiscoverMovies, getTrendingList } from "@/api/movie";
+import { getDiscoverMovies, getTrendingList } from "@/api/tmdb/movie";
 import RadioList from "@/components/RadioList.vue";
 import { useRouter } from "vue-router";
 import SmallList from "@/components/SmallList.vue";
