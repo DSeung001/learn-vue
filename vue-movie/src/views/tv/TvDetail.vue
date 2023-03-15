@@ -2,7 +2,16 @@
   <h5>TV 프로그램</h5>
   <DetailContent :content="content"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
+
+  <CreateForm
+      @save="save"
+      v-model:author="form.author"
+      v-model:content="form.content"
+  />
+
+  <DetailReviews :reviews="newReviews"/>
   <DetailReviews :reviews="reviews.results"/>
+
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailVideos :videos="content.videos.results"/>
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
@@ -32,7 +41,7 @@
 </template>
 
 <script setup>
-import {ref, watch, watchEffect} from "vue";
+import {inject, ref, watch, watchEffect} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {
   getDiscoverTv
@@ -43,6 +52,8 @@ import DetailVideos from "@/components/DetailVideos.vue";
 import DetailReviews from "@/components/DetailReviews.vue";
 import SmallList from "@/components/SmallList.vue";
 import {getRecommendationTv, getSimilarTv, getTvDetail, getTvKeywords, getTvReviews} from "@/api/tmdb/tv";
+import {createReview, getReviews} from "@/api/local/reviews";
+import CreateForm from "@/components/CreateForm.vue";
 
 const route = useRoute();
 const content = ref({
@@ -93,11 +104,20 @@ const setTvKeywords = async () => {
   keywords.value = data.results;
 };
 
+const setNewReviews = async () => {
+  const {data} = await getReviews({
+    target : route.params.id,
+    type : 'tv'
+  });
+  newReviews.value = data;
+}
+
 watchEffect(setSimilar);
 watchEffect(setContent);
 watchEffect(setReview);
 watchEffect(setRecommendation);
 watchEffect(setTvKeywords);
+setNewReviews();
 
 watch(content, () => {
   window.scrollTo(0, 0);
@@ -127,6 +147,32 @@ const setKeywordTv = async id => {
 const keywordPopupClose = () => {
   keywordPopup.value = false;
 };
+
+const form = ref({
+  type : 'tv',
+  target : route.params.id,
+  author: null,
+  content: null,
+  created_at : null,
+});
+
+const newReviews = ref([]);
+
+const dayjs = inject('dayjs');
+
+const save = async () => {
+  form.value.created_at = dayjs(Date.now()).format('YYYY-MM-DD');
+  // console.log(dayjs(Date.now()).format('YYYY-MM-DD'));
+  // console.log(form.value);
+  const {data, status} = await createReview(form.value);
+  if(status === 201){
+    alert("성공적으로 추가했습니다.");
+    form.value.author = null;
+    form.value.content = null;
+    newReviews.value.push(data)
+  }
+  console.log(data);
+}
 
 </script>
 

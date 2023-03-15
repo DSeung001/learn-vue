@@ -28,7 +28,7 @@
     </form>
   </div>
 
-</template>들
+</template>
 
 <script setup>
 defineProps({

@@ -57,7 +57,7 @@ import DetailVideos from "@/components/DetailVideos.vue";
 import DetailLinkList from "@/components/DetailLinkList.vue";
 import SmallList from "@/components/SmallList.vue";
 import CreateForm from "@/components/CreateForm.vue";
-import {createReview, getReviewsWhereMediaId} from "@/api/local/reviews";
+import {createReview, getReviews} from "@/api/local/reviews";
 
 const route = useRoute();
 const content = ref({
@@ -110,7 +110,10 @@ const setMovieKeywords = async () => {
 }
 
 const setNewReviews = async () => {
-  const {data} = await getReviewsWhereMediaId(route.params.id);
+  const {data} = await getReviews({
+    target : route.params.id,
+    type : 'movie'
+  });
   newReviews.value = data;
 }
 
