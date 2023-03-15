@@ -24,6 +24,17 @@
 </template>
 
 <script setup>
+import {getReviews} from "@/api/local/reviews";
+import {ref, watchEffect} from "vue";
+
+const reviews = ref()
+const setReviews = async () => {
+  const {data} = await getReviews();
+  reviews.value = data;
+  console.log(reviews.value);
+}
+
+watchEffect(setReviews);
 </script>
 
 <style scoped>

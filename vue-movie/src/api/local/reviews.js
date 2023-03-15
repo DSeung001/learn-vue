@@ -12,7 +12,7 @@ export function getReviewById(id) {
 
 // 리뷰 여러개 읽기
 export function getReviews(params) {
-    console.log(params);
+    // console.log(params);
     return review.get('', {
         params: {
             ...params
