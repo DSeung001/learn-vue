@@ -11,8 +11,8 @@
           제목
         </span>
         </div>
-        <input :value="title"
-               @input="$emit('update:title', $event.target.value)"
+        <input :value="author"
+               @input="$emit('update:author', $event.target.value)"
                 type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
       </div>
       <div class="form-group">
@@ -32,11 +32,11 @@
 
 <script setup>
 defineProps({
-  title: String,
+  author: String,
   content: String,
 });
 
-defineEmits(['save', 'update:title', 'update:content'])
+defineEmits(['save', 'update:author', 'update:content'])
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@
     <h5>
       리뷰
     </h5>
-    <div class="card" v-for="item in reviews.results.slice(0,5)" :key="item.id">
+    <div class="card" v-for="item in reviews.slice(0,5)" :key="item.id">
       <div class="card-body">
         <h5 class="card-title">
           {{ item.author }}
@@ -22,7 +22,7 @@
 <script setup>
 defineProps({
   reviews : {
-    type : Object,
+    type : Array,
     required : true
   }
 })

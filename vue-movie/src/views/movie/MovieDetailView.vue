@@ -5,10 +5,12 @@
 
   <CreateForm
       @save="save"
-      v-model:title="form.title"
+      v-model:author="form.author"
       v-model:content="form.content"
   />
-  <DetailReviews :reviews="reviews"/>
+
+  <DetailReviews :reviews="newReviews"/>
+  <DetailReviews :reviews="reviews.results"/>
 
   <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailVideos :videos="content.videos.results"/>
@@ -39,7 +41,7 @@
 </template>
 
 <script setup>
-import {ref, watch, watchEffect} from "vue";
+import {inject, ref, watch, watchEffect} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {
   getKeywordMovies,
@@ -67,7 +69,9 @@ const content = ref({
 
 const media = 'movie';
 
-const reviews = ref(null)
+const reviews = ref({
+  results: []
+})
 const similar = ref()
 const recommendation = ref();
 const keywords = ref();
@@ -139,14 +143,25 @@ const keywordPopupClose = () => {
 }
 
 const form = ref({
-  title: null,
+  type : 'movie',
+  media_id : route.params.id,
+  author: null,
   content: null,
+  created_at : null,
 });
 
+const newReviews = ref([]);
+
+const dayjs = inject('dayjs');
+
 const save = async () => {
+  form.value.created_at = dayjs(Date.now()).format('YYYY-MM-DD');
+  console.log(dayjs(Date.now()).format('YYYY-MM-DD'));
+  console.log(form.value);
   const {data, status} = await createReview(form.value);
   if(status === 201){
-    alert("성공적으로 추가했습니다.")
+    alert("성공적으로 추가했습니다.");
+    newReviews.value.push(data)
   }
   console.log(data);
 }

@@ -7,4 +7,4 @@ function create(baseURL, options) {
     return instance;
 }
 
-export const review = create(`${import.meta.env.VITE_APP_LOCAL_API_URL}/posts/`);
+export const review = create(`${import.meta.env.VITE_APP_LOCAL_API_URL}/reviews/`);

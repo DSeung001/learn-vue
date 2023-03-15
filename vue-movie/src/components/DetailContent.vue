@@ -15,15 +15,15 @@
       {{ item.name }}
   </span>
     <p class="mt-3" v-if="content.release_date">
-      {{ content.release_date }}년도 작품
+      {{ content.release_date }} 작품
     </p>
 
     <p class="mt-3">
       <span v-if="content.first_air_date">
-      {{ content.first_air_date }}년부터
+      {{ content.first_air_date }} 부터
     </span>
       <span class="mt-3" v-if="content.last_air_date">
-      {{ content.last_air_date }}년까지
+      {{ content.last_air_date }} 까지
     </span>
     </p>
 
