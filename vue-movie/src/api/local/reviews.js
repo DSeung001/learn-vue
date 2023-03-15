@@ -12,6 +12,6 @@ export function getReviewById(id){
 
 
 // 리뷰 여러개 읽기
-export function getReviews(param){
-    return review.get('/', {...param})
+export function getReviewsWhereMediaId(mediaId = 0, param = {}){
+    return review.get(`?target=${mediaId}`, {...param})
 }

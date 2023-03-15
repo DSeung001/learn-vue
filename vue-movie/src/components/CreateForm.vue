@@ -8,7 +8,7 @@
       <div class="input-group mb-3">
         <div class="input-group-prepend">
         <span class="input-group-text" id="inputGroup-sizing-default">
-          제목
+          저자
         </span>
         </div>
         <input :value="author"

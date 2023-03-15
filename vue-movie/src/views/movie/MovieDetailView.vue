@@ -57,7 +57,7 @@ import DetailVideos from "@/components/DetailVideos.vue";
 import DetailLinkList from "@/components/DetailLinkList.vue";
 import SmallList from "@/components/SmallList.vue";
 import CreateForm from "@/components/CreateForm.vue";
-import {createReview} from "@/api/local/reviews";
+import {createReview, getReviewsWhereMediaId} from "@/api/local/reviews";
 
 const route = useRoute();
 const content = ref({
@@ -109,11 +109,17 @@ const setMovieKeywords = async () => {
   // console.log(data.keywords);
 }
 
+const setNewReviews = async () => {
+  const {data} = await getReviewsWhereMediaId(route.params.id);
+  newReviews.value = data;
+}
+
 watchEffect(setSimilar)
 watchEffect(setContent);
 watchEffect(setReview);
 watchEffect(setRecommendation);
 watchEffect(setMovieKeywords);
+setNewReviews();
 
 watch(content, () => {
   window.scrollTo(0, 0);
@@ -144,7 +150,7 @@ const keywordPopupClose = () => {
 
 const form = ref({
   type : 'movie',
-  media_id : route.params.id,
+  target : route.params.id,
   author: null,
   content: null,
   created_at : null,
@@ -161,6 +167,8 @@ const save = async () => {
   const {data, status} = await createReview(form.value);
   if(status === 201){
     alert("성공적으로 추가했습니다.");
+    form.value.author = null;
+    form.value.content = null;
     newReviews.value.push(data)
   }
   console.log(data);
