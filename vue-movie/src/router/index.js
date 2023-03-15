@@ -1,10 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router';
 
 import HomeView from "@/views/HomeView.vue";
-import MovieListView from "@/views/movie/MovieListView.vue";
-import MovieDetailView from "@/views/movie/MovieDetailView.vue";
-import RecommendListView from "@/views/movie/RecommendListView.vue";
-import TvDetailView from "@/views/tv/TvDetailView.vue";
+import MovieList from "@/views/movie/MovieList.vue";
+import MovieDetail from "@/views/movie/MovieDetail.vue";
+import RecommendList from "@/views/movie/RecommendList.vue";
+import TvDetail from "@/views/tv/TvDetail.vue";
+import ReviewList from "@/views/reviews/ReviewList.vue";
 
 const routes = [
     {
@@ -19,23 +20,28 @@ const routes = [
     },
     {
         path: '/movie',
-        name: 'MovieListView',
-        component: MovieListView,
+        name: 'MovieList',
+        component: MovieList,
     },
     {
         path: '/movie/:id',
         name: 'MovieDetail',
-        component: MovieDetailView
+        component: MovieDetail
     },
     {
         path: '/tv/:id',
         name: 'TvDetail',
-        component: TvDetailView
+        component: TvDetail
     },
     {
         path: '/recommend',
         name: 'Recommend',
-        component: RecommendListView
+        component: RecommendList
+    },
+    {
+        path: '/reviews',
+        name: 'Reviews',
+        component: ReviewList
     }
 ];
 const router = createRouter({

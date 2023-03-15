@@ -10,7 +10,7 @@
         </h5>
         <div>
           <h6 class="card-subtitle mb-2 text-muted">
-            {{ item.created_at.substring(0, 10) }}
+            {{ item.created_at !== undefined ? item.created_at.substring(0, 10) : "" }}
           </h6>
           <p class="card-text">
             {{ item.content }}

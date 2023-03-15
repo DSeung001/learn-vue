@@ -37,6 +37,16 @@
               </RouterLink>
             </li>
 
+            <li>
+              <RouterLink
+                  to="/reviews"
+                  active-class="active"
+                  class="nav-link"
+              >
+                리뷰들
+              </RouterLink>
+            </li>
+
           </ul>
         </div>
 

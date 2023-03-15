@@ -162,8 +162,8 @@ const dayjs = inject('dayjs');
 
 const save = async () => {
   form.value.created_at = dayjs(Date.now()).format('YYYY-MM-DD');
-  console.log(dayjs(Date.now()).format('YYYY-MM-DD'));
-  console.log(form.value);
+  // console.log(dayjs(Date.now()).format('YYYY-MM-DD'));
+  // console.log(form.value);
   const {data, status} = await createReview(form.value);
   if(status === 201){
     alert("성공적으로 추가했습니다.");

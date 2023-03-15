@@ -1,39 +1,39 @@
 <template>
   <h5>TV 프로그램</h5>
-  <DetailContent :content="content" />
-  <hr style="margin-top: 30px; margin-bottom: 30px;" />
-  <DetailReviews :reviews="reviews" />
-  <hr style="margin-top: 30px; margin-bottom: 30px;" />
-  <DetailVideos :videos="content.videos.results" />
-  <hr style="margin-top: 30px; margin-bottom: 30px;" />
+  <DetailContent :content="content"/>
+  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
+  <DetailReviews :reviews="reviews.results"/>
+  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
+  <DetailVideos :videos="content.videos.results"/>
+  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailLinkList :list="similar" :media="media" @goDetail="goDetail">
     <h5>유사한 TV 프로그램</h5>
   </DetailLinkList>
   <DetailLinkList :list="recommendation" :media="media" @goDetail="goDetail">
     <h5>추천 TV 프로그램</h5>
   </DetailLinkList>
-  <hr style="margin-top: 30px; margin-bottom: 30px;" />
+  <hr style="margin-top: 30px; margin-bottom: 30px;"/>
   <DetailLinkList :list="keywords" :media="media" @goDetail="setKeywordTv">
     <h5>키워드</h5>
   </DetailLinkList>
 
   <div
-    v-if="keywordPopup"
-    style="max-width: 1280px; height: 680px; margin : 0 auto; border: 1px solid;
+      v-if="keywordPopup"
+      style="max-width: 1280px; height: 680px; margin : 0 auto; border: 1px solid;
   background-color: #111; position: fixed; top: 100px; overflow: scroll">
     <button @click.prevent="keywordPopupClose" style="left: 1230px;position: relative">
       x
     </button>
     <div v-if="keywordTv">
-      <SmallList :list="keywordTv" @goDetail="goDetail" col-class="col-2" />
+      <SmallList :list="keywordTv" @goDetail="goDetail" col-class="col-2"/>
     </div>
   </div>
 
 </template>
 
 <script setup>
-import { ref, watch, watchEffect } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import {ref, watch, watchEffect} from "vue";
+import {useRoute, useRouter} from "vue-router";
 import {
   getDiscoverTv
 } from "@/api/tmdb/movie";
@@ -42,7 +42,7 @@ import DetailLinkList from "@/components/DetailLinkList.vue";
 import DetailVideos from "@/components/DetailVideos.vue";
 import DetailReviews from "@/components/DetailReviews.vue";
 import SmallList from "@/components/SmallList.vue";
-import { getRecommendationTv, getSimilarTv, getTvDetail, getTvKeywords, getTvReviews } from "@/api/tmdb/tv";
+import {getRecommendationTv, getSimilarTv, getTvDetail, getTvKeywords, getTvReviews} from "@/api/tmdb/tv";
 
 const route = useRoute();
 const content = ref({
@@ -54,7 +54,9 @@ const content = ref({
 
 const media = "tv";
 
-const reviews = ref(null);
+const reviews = ref({
+  results: []
+});
 const similar = ref(null);
 const recommendation = ref();
 const keywords = ref();
@@ -63,31 +65,31 @@ const keywordPopup = ref(false);
 
 
 const setContent = async () => {
-  const { data } = await getTvDetail(route.params.id);
+  const {data} = await getTvDetail(route.params.id);
   content.value = data;
   // console.log(data);
 };
 
 const setSimilar = async () => {
-  const { data } = await getSimilarTv(route.params.id);
+  const {data} = await getSimilarTv(route.params.id);
   similar.value = data.results;
   // console.log((data.results))
 };
 
 const setReview = async () => {
-  const { data } = await getTvReviews(route.params.id);
+  const {data} = await getTvReviews(route.params.id);
   reviews.value = data;
   // console.log(data);
 };
 
 const setRecommendation = async () => {
-  const { data } = await getRecommendationTv(route.params.id);
+  const {data} = await getRecommendationTv(route.params.id);
   recommendation.value = data.results;
   // console.log((data))
 };
 
 const setTvKeywords = async () => {
-  const { data } = await getTvKeywords(route.params.id);
+  const {data} = await getTvKeywords(route.params.id);
   keywords.value = data.results;
 };
 
@@ -114,7 +116,7 @@ const goDetail = id => {
 };
 
 const setKeywordTv = async id => {
-  const { data } = await getDiscoverTv({
+  const {data} = await getDiscoverTv({
     with_keywords: id
   });
   keywordTv.value = data.results;
