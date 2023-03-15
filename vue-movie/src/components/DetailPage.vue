@@ -151,7 +151,7 @@ const setKeywords = async () => {
 
 const setNewReviews = async () => {
   const {data} = await getReviews({
-    target: route.params.id,
+    media_id: route.params.id,
     type: props.media
   });
   newReviews.value = data;
@@ -203,7 +203,7 @@ const keywordPopupClose = () => {
 
 const form = ref({
   type: props.media,
-  target: route.params.id,
+  media_id: route.params.id,
   author: null,
   content: null,
   created_at: null,

@@ -22,7 +22,7 @@
         {{ value.name }},
       </span>
     </p>
-    <input type="search" @input="setSearchKeyword($event.target.value)">
+    <input type="search" @input="setSearchKeyword($event.media_id.value)">
     <ul>
       <li v-for="item in keywordList" :key="item.id">
         <a href="#" @click.prevent="addKeywordList(item.id, item.name)">

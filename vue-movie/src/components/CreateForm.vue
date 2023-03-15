@@ -22,8 +22,8 @@
             @input="$emit('update:content', $event.target.value)"
             class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
       </div>
-      <button @click.prevent="$emit('save')">
-          저장
+      <button @click.prevent="$emit('save')" class="btn btn-primary">
+        저장
       </button>
     </form>
   </div>
