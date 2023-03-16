@@ -11,26 +11,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="review in reviews" :key="review.id">
-      <th>
-        {{review.id}}
-      </th>
-      <th>
-        {{review.type}}
-      </th>
-      <th>
-        <input :value="review.media_id"/>
-      </th>
-      <th>
-        <input :value="review.author"/>
-      </th>
-      <th>
-        <input :value="review.content"/>
-      </th>
-      <th>
-        {{review.created_at}}
-      </th>
-    </tr>
+        <tableRow
+            v-for="review in reviews"
+            :review="review"
+            :key="review.id"/>
     </tbody>
   </table>
   <ListPagination
@@ -46,6 +30,7 @@
 <script setup>
 import {getReviews} from "@/api/local/reviews";
 import {computed, ref, watchEffect} from "vue";
+import TableRow from "@/components/tableRow.vue";
 
 const reviews = ref()
 
