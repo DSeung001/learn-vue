@@ -1,15 +1,6 @@
 <template>
   <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">미디어 타입</th>
-        <th scope="col">미디어 아이디</th>
-        <th scope="col">저자</th>
-        <th scope="col">내용</th>
-        <th scope="col">생성일</th>
-      </tr>
-    </thead>
+    <TableHeader />
     <tbody>
       <tableRow v-for="review in reviews" :review="review" :key="review.id" />
     </tbody>
@@ -26,12 +17,13 @@
 
 <script setup>
 import { computed, ref, watchEffect } from 'vue'
-import TableRow from '@/components/tableRow.vue'
+import TableRow from '@/components/TableRow.vue'
 import { useAxios } from '@/composables/useAxios'
 import AppLoading from '@/components/app/AppLoading.vue'
 import AppError from '@/components/app/AppError.vue'
 import { reviewPath } from '@/api/local'
 import ListPagination from '@/components/ListPagination.vue'
+import TableHeader from '@/components/TableHeader.vue'
 
 const params = ref({
   _sort: 'createdAt',
@@ -47,10 +39,6 @@ const {
   response
 } = useAxios(reviewPath, {
   params
-})
-
-watchEffect(() => {
-  console.log(params.value)
 })
 
 const totalCount = computed(() => {
