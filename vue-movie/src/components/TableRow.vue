@@ -11,9 +11,11 @@
     </td>
     <td>
       <input :value="review.author" @blur="dataUpdate('author', $event.target.value)" />
+      <p v-if="isError.author" class="error">Error</p>
     </td>
     <td>
-      <input :value="review.content" @blur="dataUpdate('content', $event.target.value)" />
+      <textarea :value="review.content" @blur="dataUpdate('content', $event.target.value)" />
+      <p v-if="isError.content" class="error">Error</p>
     </td>
     <td>
       {{ review.created_at }}
@@ -23,6 +25,12 @@
 
 <script setup>
 import { setReviewWhereId } from '@/api/local/reviews'
+import { ref } from 'vue'
+
+const isError = ref({
+  author: false,
+  content: false
+})
 
 const props = defineProps({
   review: {
@@ -32,10 +40,31 @@ const props = defineProps({
 })
 
 const dataUpdate = async (type, value) => {
-  let content = {}
-  content[type] = value
-  await setReviewWhereId(props.review.id, content)
+  if (isValidation(type, value)) {
+    let content = {}
+    content[type] = value
+    isError.value[type] = false
+    await setReviewWhereId(props.review.id, content)
+  } else {
+    isError.value[type] = true
+  }
+}
+
+const isValidation = (type, value) => {
+  switch (type) {
+    case 'author':
+      const reg = /[\{\}\[\]\/?.,;|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g
+      return !reg.test(value)
+    case 'content':
+      return value.length < 200
+  }
+  return true
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.error {
+  color: red;
+  margin: 0px;
+}
+</style>
