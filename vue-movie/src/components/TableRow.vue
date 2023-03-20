@@ -40,6 +40,7 @@ const props = defineProps({
 })
 
 const dataUpdate = async (type, value) => {
+  props.review[type] = value
   if (isValidation(type, value)) {
     let content = {}
     content[type] = value
