@@ -11,11 +11,11 @@
     </td>
     <td>
       <input :value="review.author" @blur="dataUpdate('author', $event.target.value)" />
-      <p v-if="isError.author" class="error">Error</p>
+      <p v-if="isError.author" class="error">특수문자를 입력하실 수 없습니다.</p>
     </td>
     <td>
       <textarea :value="review.content" @blur="dataUpdate('content', $event.target.value)" />
-      <p v-if="isError.content" class="error">Error</p>
+      <p v-if="isError.content" class="error">200자를 넘을 수 없습니다.</p>
     </td>
     <td>
       {{ review.created_at }}
