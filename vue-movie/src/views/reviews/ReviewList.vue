@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref } from 'vue'
 import TableRow from '@/components/TableRow.vue'
 import { useAxios } from '@/composables/useAxios'
 import AppLoading from '@/components/app/AppLoading.vue'
@@ -26,10 +26,10 @@ import ListPagination from '@/components/ListPagination.vue'
 import TableHeader from '@/components/TableHeader.vue'
 
 const params = ref({
-  _sort: 'createdAt',
+  _sort: 'created_at',
   _order: 'desc',
   _page: 1,
-  _limit: 10
+  _limit: 7
 })
 
 const {

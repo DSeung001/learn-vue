@@ -222,7 +222,7 @@ const newReviews = ref([])
 const dayjs = inject('dayjs')
 
 const save = async () => {
-  form.value.created_at = dayjs(Date.now()).format('YYYY-MM-DD')
+  form.value.created_at = dayjs(Date.now()).format('YYYY-MM-DD hh:mm:ss')
   // console.log(dayjs(Date.now()).format('YYYY-MM-DD'));
   // console.log(form.value);
   const { data, status } = await createReview(form.value)

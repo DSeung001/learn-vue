@@ -7,7 +7,7 @@
       {{ review.type }}
     </td>
     <td>
-      <input :value="review.media_id" @blur="dataUpdate('media_id', $event.target.value)" />
+      {{ review.media_id }}
     </td>
     <td>
       <input :value="review.author" @blur="dataUpdate('author', $event.target.value)" />
