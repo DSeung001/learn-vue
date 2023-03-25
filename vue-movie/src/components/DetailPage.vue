@@ -249,13 +249,6 @@ const save = async () => {
   }
   console.log(data)
 }
-
-onBeforeRouteUpdate((to, from) => {
-  if (to.name === 'TopRateList' && from.name === 'MovieDetail') {
-    console.log(to)
-    console.log(from)
-  }
-})
 </script>
 
 <style scoped></style>
