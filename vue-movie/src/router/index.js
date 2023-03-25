@@ -6,6 +6,7 @@ import MovieDetail from '@/views/movie/MovieDetail.vue'
 import RecommendList from '@/views/movie/RecommendList.vue'
 import TvDetail from '@/views/tv/TvDetail.vue'
 import ReviewList from '@/views/reviews/ReviewList.vue'
+import TopRateList from '@/views/movie/TopRateList.vue'
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     path: '/movie',
     name: 'MovieList',
     component: MovieList
+  },
+  {
+    path: '/topRate',
+    name: 'TopRateList',
+    component: TopRateList
   },
   {
     path: '/movie/:id',
@@ -50,12 +56,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // console.log(to)
   // console.log(from)
-
-  if (to.name === 'MovieDetail' && from.name === 'MovieList') {
-    next()
-  } else if (
+  // console.log(to)
+  if (
     to.name === 'MovieList' &&
     from.name === 'MovieDetail' &&
     from.query.currentPage !== undefined &&
@@ -63,7 +66,21 @@ router.beforeEach((to, from, next) => {
   ) {
     next({
       path: '/movie',
-      query: from.query
+      query: {
+        currentPage: from.query.currentPage
+      }
+    })
+  } else if (
+    to.name === 'TopRateList' &&
+    from.name === 'MovieDetail' &&
+    from.query.currentPage !== undefined &&
+    to.query.currentPage === undefined
+  ) {
+    next({
+      path: '/topRate',
+      query: {
+        currentPage: from.query.currentPage
+      }
     })
   } else {
     next()

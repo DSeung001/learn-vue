@@ -68,7 +68,7 @@
 
 <script setup>
 import { inject, ref, watch, watchEffect } from 'vue'
-import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import {
   getKeywordMovies,
   getMovieDetail,
@@ -250,22 +250,12 @@ const save = async () => {
   console.log(data)
 }
 
-/*
-
-브라우저의 뒤로가기까지 지원하려면 아래 훅에서 스토어에 값을 저장하는 방법으로 할 수 있음
-=> 이전 리액트 프로젝트에서 동일하게 진행해서 이번에는 다르게 하기 위해 뷰 라우터 네비게이션을 사용
-
 onBeforeRouteUpdate((to, from) => {
-  console('beforeRouteUpdate')
-  console.log(to)
-  console.log(from)
+  if (to.name === 'TopRateList' && from.name === 'MovieDetail') {
+    console.log(to)
+    console.log(from)
+  }
 })
-
-onBeforeRouteLeave((to, from) => {
-  console.log('beforeRouteLeave')
-  console.log(to)
-  console.log(from)
-})*/
 </script>
 
 <style scoped></style>
