@@ -68,7 +68,7 @@
 
 <script setup>
 import { inject, ref, watch, watchEffect } from 'vue'
-import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import {
   getKeywordMovies,
   getMovieDetail,

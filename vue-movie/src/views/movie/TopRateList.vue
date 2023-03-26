@@ -73,7 +73,8 @@ const goMovieDetail = (id) => {
       id
     },
     query: {
-      currentPage: currentPage.value
+      currentPage: currentPage.value,
+      type: 'rate'
     }
   })
 }
@@ -82,7 +83,8 @@ watchEffect(setList)
 watch(currentPage, () => {
   router.push({
     query: {
-      currentPage: currentPage.value
+      currentPage: currentPage.value,
+      type: 'rate'
     }
   })
   window.scrollTo(0, 0)

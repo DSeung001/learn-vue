@@ -56,35 +56,32 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // console.log(from)
-  // console.log(to)
-  if (
-    to.name === 'MovieList' &&
-    from.name === 'MovieDetail' &&
-    from.query.currentPage !== undefined &&
-    to.query.currentPage === undefined
-  ) {
-    next({
-      path: '/movie',
-      query: {
-        currentPage: from.query.currentPage
-      }
-    })
-  } else if (
-    to.name === 'TopRateList' &&
-    from.name === 'MovieDetail' &&
-    from.query.currentPage !== undefined &&
-    to.query.currentPage === undefined
-  ) {
-    next({
-      path: '/topRate',
-      query: {
-        currentPage: from.query.currentPage
-      }
-    })
-  } else {
-    next()
+  console.log()
+  if (from.query.currentPage !== undefined && to.query.currentPage === undefined) {
+    if (to.name === 'MovieList' && from.name === 'MovieDetail' && from.query.type === 'movie') {
+      next({
+        path: '/movie',
+        query: {
+          currentPage: from.query.currentPage,
+          type: 'movie'
+        }
+      })
+    } else if (
+      to.name === 'TopRateList' &&
+      from.name === 'MovieDetail' &&
+      from.query.type === 'rate'
+    ) {
+      next({
+        path: '/topRate',
+        query: {
+          currentPage: from.query.currentPage,
+          type: 'rate'
+        }
+      })
+    }
   }
+
+  next()
 })
 
 export default router
