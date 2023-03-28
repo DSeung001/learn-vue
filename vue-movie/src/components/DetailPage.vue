@@ -14,20 +14,30 @@
   <hr style="margin-top: 30px; margin-bottom: 30px" />
   <DetailVideos :videos="content.videos.results" />
   <hr style="margin-top: 30px; margin-bottom: 30px" />
-  <DetailLinkList :list="similar" :media="media" @goDetail="goDetail">
+  <DetailLinkList v-if="similar !== undefined" :list="similar" :media="media" @goDetail="goDetail">
     <h5>
       {{ props.media == 'tv' ? '유사한 TV 프로그램' : '' }}
       {{ props.media == 'movie' ? '유사한 영화' : '' }}
     </h5>
   </DetailLinkList>
-  <DetailLinkList :list="recommendation" :media="media" @goDetail="goDetail">
+  <DetailLinkList
+    v-if="recommendation !== undefined"
+    :list="recommendation"
+    :media="media"
+    @goDetail="goDetail"
+  >
     <h5>
       {{ props.media == 'tv' ? '추천 TV 프로그램' : '' }}
       {{ props.media == 'movie' ? '추천 영화' : '' }}
     </h5>
   </DetailLinkList>
   <hr style="margin-top: 30px; margin-bottom: 30px" />
-  <DetailLinkList :list="keywords" :media="media" @goDetail="setKeywordMovies">
+  <DetailLinkList
+    v-if="keywords !== undefined"
+    :list="keywords"
+    :media="media"
+    @goDetail="setKeywordMovies"
+  >
     <h5>키워드</h5>
   </DetailLinkList>
 
@@ -46,7 +56,12 @@
   >
     <button @click.prevent="keywordPopupClose" style="position: relative">x</button>
     <div v-if="keywordMovies">
-      <SmallList :list="keywordMovies" @goDetail="goDetail" col-class="col-2" />
+      <SmallList
+        v-if="keywordMovies !== undefined"
+        :list="keywordMovies"
+        @goDetail="goDetail"
+        col-class="col-2"
+      />
     </div>
   </div>
 </template>

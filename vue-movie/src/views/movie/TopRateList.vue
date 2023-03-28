@@ -17,7 +17,7 @@
 
 <script setup>
 import { computed, ref, watch, watchEffect } from 'vue'
-import { getDiscoverMovies } from '@/api/tmdb/movie'
+import { getTopRateMovies } from '@/api/tmdb/movie'
 import { useGenreStore } from '@/stores/genre'
 import ListPagination from '@/components/ListPagination.vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -31,6 +31,7 @@ const movieList = ref([])
 const genreStore = useGenreStore()
 
 const totalPages = ref(1)
+
 const currentPage = ref(route.query.currentPage === undefined ? 1 : route.query.currentPage / 1)
 const startPage = computed(() => (currentPage.value - 2 <= 1 ? 1 : currentPage.value - 2))
 const lastPage = computed(() =>
@@ -43,24 +44,23 @@ const setList = async () => {
   }
 
   try {
-    const { data: discoverData } = await getDiscoverMovies({
+    const { data: movieData } = await getTopRateMovies({
       page: currentPage.value
     })
 
-    totalPages.value = discoverData.total_pages
+    totalPages.value = movieData.total_pages
 
-    let discoverList = discoverData.results
-    discoverList.forEach((item, index) => {
-      discoverList[index].genre_text = ''
+    let list = movieData.results
+    list.forEach((item, index) => {
+      list[index].genre_text = ''
 
       item.genre_ids.forEach((id) => {
         let genre = genreStore.movieGenres.get(id)
-        discoverList[index].genre_text =
-          discoverList[index].genre_text + (genre === undefined ? '' : genre) + ' '
+        list[index].genre_text = list[index].genre_text + (genre === undefined ? '' : genre) + ' '
       })
     })
 
-    movieList.value = discoverList
+    movieList.value = list
   } catch (error) {
     console.log(error)
   }
@@ -74,7 +74,7 @@ const goMovieDetail = (id) => {
     },
     query: {
       currentPage: currentPage.value,
-      type: 'movie'
+      type: 'rate'
     }
   })
 }
@@ -84,7 +84,7 @@ watch(currentPage, () => {
   router.push({
     query: {
       currentPage: currentPage.value,
-      type: 'movie'
+      type: 'rate'
     }
   })
   window.scrollTo(0, 0)

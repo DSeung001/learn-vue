@@ -1,28 +1,29 @@
 <template>
+  <h2>나에게 맞는 작품 찾기</h2>
 
-  <h2>
-    나에게 맞는 작품 찾기
-  </h2>
-
-  <p> Q : 미디어 고르기</p>
+  <p>Q : 미디어 고르기</p>
   <RadioList
-    @setRadio="value => (currentMedia = value)"
-    name="media" :list="mediaList" :selected="currentMedia" />
+    @setRadio="(value) => (currentMedia = value)"
+    name="media"
+    :list="mediaList"
+    :selected="currentMedia"
+  />
 
   <!--  지웠을 때도 반응 추가-->
-  <p v-if="currentMedia"> Q : 장르 구하기</p>
+  <p v-if="currentMedia">Q : 장르 구하기</p>
   <CheckboxList
-    @setCheckbox="value => (currentGenres.push(value))"
-    name="genre" :list="genreList" />
+    @setCheckbox="(value) => currentGenres.push(value)"
+    name="genre"
+    :list="genreList"
+  />
 
   <template v-if="currentMedia">
     <p>Q : 키워드 검색</p>
-    <p>현재 키워드 :
-      <span v-for="(value, key) in currentKeywords" :key="key">
-        {{ value.name }},
-      </span>
+    <p>
+      현재 키워드 :
+      <span v-for="(value, key) in currentKeywords" :key="key"> {{ value.name }}, </span>
     </p>
-    <input type="search" @input="setSearchKeyword($event.media_id.value)">
+    <input type="search" @input="setSearchKeyword($event.media_id.value)" />
     <ul>
       <li v-for="item in keywordList" :key="item.id">
         <a href="#" @click.prevent="addKeywordList(item.id, item.name)">
@@ -33,134 +34,123 @@
     <checkbox-list name="keyword" :list="keywordList" />
   </template>
 
-  <button @click="setList">
-    검색
-  </button>
-  <button @click="pageReset">
-    초기화
-  </button>
+  <button @click="setList">검색</button>
+  <button @click="pageReset">초기화</button>
 
   <div v-if="contentList.length > 0">
     <SmallList :list="contentList" @goDetail="goDetail" col-class="col-3" />
   </div>
-
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-import RadioList from "@/components/RadioList.vue";
-import CheckboxList from "@/components/CheckboxList.vue";
-import { useGenreStore } from "@/stores/genre";
-import { getDiscoverMovies, getDiscoverTv, getSearchKeyword } from "@/api/tmdb/movie";
-import { useRouter } from "vue-router";
-import SmallList from "@/components/SmallList.vue";
+import { ref, watch } from 'vue'
+import RadioList from '@/components/RadioList.vue'
+import CheckboxList from '@/components/CheckboxList.vue'
+import { useGenreStore } from '@/stores/genre'
+import { getDiscoverMovies, getDiscoverTv, getSearchKeyword } from '@/api/tmdb/movie'
+import { useRouter } from 'vue-router'
+import SmallList from '@/components/SmallList.vue'
 
-const genreStore = useGenreStore();
+const genreStore = useGenreStore()
 
 const mediaList = new Map([
-  ["movie", "영화"],
-  ["tv", "티비"]
-]);
+  ['movie', '영화'],
+  ['tv', '티비']
+])
 
-const genreList = ref([]);
-const keywordList = ref([]);
-const searchKeyword = ref("");
+const genreList = ref([])
+const keywordList = ref([])
+const searchKeyword = ref('')
 
-const currentMedia = ref();
-const currentGenres = ref([]);
-const currentKeywords = ref([]);
+const currentMedia = ref()
+const currentGenres = ref([])
+const currentKeywords = ref([])
 
-const contentList = ref([]);
-
+const contentList = ref([])
 
 const setupStore = async () => {
   if (genreStore.movieGenres.size === 0) {
-    await genreStore.fetchMovieGenres();
+    await genreStore.fetchMovieGenres()
   }
   if (genreStore.tvGenres.size === 0) {
-    await genreStore.fetchTvGenres();
+    await genreStore.fetchTvGenres()
   }
-};
+}
 
-setupStore();
+setupStore()
 
 const setSearchKeyword = async (search) => {
-  searchKeyword.value = search;
-};
+  searchKeyword.value = search
+}
 
 const addKeywordList = (id, name) => {
-  currentKeywords.value.push({ id: id, name: name });
-};
+  currentKeywords.value.push({ id: id, name: name })
+}
 
 const setList = async () => {
-  let keywords = currentKeywords.value.map(item => item.id);
+  let keywords = currentKeywords.value.map((item) => item.id)
 
-  if (currentMedia.value === "tv") {
+  if (currentMedia.value === 'tv') {
     const { data } = await getDiscoverTv({
       with_genres: currentGenres.value.toString(),
       with_keywords: keywords.toString()
-    });
+    })
     // console.log(data.results);
-    contentList.value = data.results;
-  } else if (currentMedia.value === "movie") {
+    contentList.value = data.results
+  } else if (currentMedia.value === 'movie') {
     const { data } = await getDiscoverMovies({
       with_genres: currentGenres.value.toString(),
       with_keywords: keywords.toString()
-    });
+    })
     // console.log(data.results);
-    contentList.value = data.results;
+    contentList.value = data.results
   }
-};
+}
 const pageReset = () => {
-  console.log("실행");
-  if (currentMedia.value === "movie") {
-    genreList.value = genreStore.movieGenres;
-  } else if (currentMedia.value === "tv") {
-    genreList.value = genreStore.tvGenres;
+  if (currentMedia.value === 'movie') {
+    genreList.value = genreStore.movieGenres
+  } else if (currentMedia.value === 'tv') {
+    genreList.value = genreStore.tvGenres
   }
   // console.log(currentGenres.value);
-  currentGenres.value = [];
-  currentKeywords.value = [];
-  searchKeyword.value = "";
-  contentList.value = [];
-};
+  currentGenres.value = []
+  currentKeywords.value = []
+  searchKeyword.value = ''
+  contentList.value = []
+}
 
 watch(currentMedia, () => {
-  pageReset();
-});
+  pageReset()
+})
 
 watch(searchKeyword, async () => {
   const { data } = await getSearchKeyword({
-      query: searchKeyword.value
-    }
-  );
-  keywordList.value = data.results;
+    query: searchKeyword.value
+  })
+  keywordList.value = data.results
   // console.log(data);
-});
+})
 
-const router = useRouter();
+const router = useRouter()
 const goDetail = (id) => {
-  let type = currentMedia.value;
-  console.log(type);
-  if (type == "tv") {
+  let type = currentMedia.value
+  console.log(type)
+  if (type == 'tv') {
     router.push({
-      name: "TvDetail",
+      name: 'TvDetail',
       params: {
         id
       }
-    });
+    })
   } else {
     router.push({
-      name: "MovieDetail",
+      name: 'MovieDetail',
       params: {
         id
       }
-    });
+    })
   }
-};
-
-
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
