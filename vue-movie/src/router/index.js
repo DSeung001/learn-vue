@@ -7,6 +7,8 @@ import RecommendList from '@/views/movie/RecommendList.vue'
 import TvDetail from '@/views/tv/TvDetail.vue'
 import ReviewList from '@/views/reviews/ReviewList.vue'
 import TopRateList from '@/views/movie/TopRateList.vue'
+import LoginPage from '../views/user/LoginPage.vue'
+import JoinPage from '../views/user/JoinPage.vue'
 
 const routes = [
   {
@@ -48,6 +50,16 @@ const routes = [
     path: '/reviews',
     name: 'Reviews',
     component: ReviewList
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginPage
+  },
+  {
+    path: '/join',
+    name: 'Join',
+    component: JoinPage
   }
 ]
 const router = createRouter({
